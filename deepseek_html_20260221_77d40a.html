@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -63,10 +64,12 @@
         .screen-content::-webkit-scrollbar {
             width: 5px;
         }
+
         .screen-content::-webkit-scrollbar-track {
             background: #f1e4ed;
             border-radius: 20px;
         }
+
         .screen-content::-webkit-scrollbar-thumb {
             background: #c7b5cf;
             border-radius: 20px;
@@ -157,9 +160,11 @@
             cursor: pointer;
             transition: 0.2s;
         }
+
         .voice-button:hover {
             background: #e9d4fa;
         }
+
         .voice-button i {
             font-size: 24px;
             color: #b13e8d;
@@ -177,6 +182,7 @@
             transition: 0.2s;
             margin-bottom: 16px;
         }
+
         textarea:focus {
             border-color: #c77dff;
         }
@@ -203,11 +209,13 @@
             border: 1px solid transparent;
             user-select: none;
         }
+
         .chip.active {
             background: #d5b1e4;
             color: #2b152b;
             border-color: #b873cf;
         }
+
         .chip i {
             font-size: 16px;
         }
@@ -226,6 +234,7 @@
             transition: 0.15s;
             box-shadow: 0 10px 20px -8px #b13e8d80;
         }
+
         .save-button:hover {
             background: #9f307b;
             transform: scale(1.01);
@@ -278,11 +287,13 @@
             cursor: pointer;
             border: 1px solid transparent;
         }
+
         .day-cell.has-entry {
             background: #e8d2f0;
             border-color: #b48abf;
             font-weight: 600;
         }
+
         .day-cell .dot {
             width: 5px;
             height: 5px;
@@ -316,12 +327,14 @@
         }
     </style>
 </head>
+
 <body>
     <div class="app-container" id="app">
         <!-- status bar (fake) -->
         <div class="status-bar">
             <span>9:41</span>
-            <span><i class="fa-solid fa-signal"></i> <i class="fa-solid fa-wifi"></i> <i class="fa-solid fa-battery-full"></i></span>
+            <span><i class="fa-solid fa-signal"></i> <i class="fa-solid fa-wifi"></i> <i
+                    class="fa-solid fa-battery-full"></i></span>
         </div>
 
         <!-- dynamic screen content (changes by tab) -->
@@ -352,7 +365,7 @@
 
     <!-- load simplex javascript -->
     <script>
-        (function() {
+        (function () {
             // ---------- MOCK DATA ----------
             let currentUser = {
                 name: "Sarah",
@@ -391,7 +404,7 @@
             // Helper: today's date as YYYY-MM-DD
             function getTodayDate() {
                 const d = new Date();
-                return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+                return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
             }
 
             // current selected date for input
@@ -465,9 +478,9 @@
                             </div>
                             ${currentFactors.period ? `
                                 <select id="periodFlowSelect" style="background:#f3e6f3; border-radius:30px; padding:10px; border:1px solid #d5b1e4;">
-                                    <option value="light" ${currentFactors.periodFlow==='light'?'selected':''}>Light</option>
-                                    <option value="medium" ${currentFactors.periodFlow==='medium'?'selected':''}>Medium</option>
-                                    <option value="heavy" ${currentFactors.periodFlow==='heavy'?'selected':''}>Heavy</option>
+                                    <option value="light" ${currentFactors.periodFlow === 'light' ? 'selected' : ''}>Light</option>
+                                    <option value="medium" ${currentFactors.periodFlow === 'medium' ? 'selected' : ''}>Medium</option>
+                                    <option value="heavy" ${currentFactors.periodFlow === 'heavy' ? 'selected' : ''}>Heavy</option>
                                 </select>
                             ` : ''}
                         </div>
@@ -479,10 +492,10 @@
                             </div>
                             ${currentFactors.birthControl ? `
                                 <select id="birthControlSelect" style="background:#f3e6f3; border-radius:30px; padding:10px;">
-                                    <option value="pill" ${currentFactors.birthControlType==='pill'?'selected':''}>Pill</option>
-                                    <option value="iud" ${currentFactors.birthControlType==='iud'?'selected':''}>IUD</option>
-                                    <option value="implant" ${currentFactors.birthControlType==='implant'?'selected':''}>Implant</option>
-                                    <option value="other" ${currentFactors.birthControlType==='other'?'selected':''}>Other</option>
+                                    <option value="pill" ${currentFactors.birthControlType === 'pill' ? 'selected' : ''}>Pill</option>
+                                    <option value="iud" ${currentFactors.birthControlType === 'iud' ? 'selected' : ''}>IUD</option>
+                                    <option value="implant" ${currentFactors.birthControlType === 'implant' ? 'selected' : ''}>Implant</option>
+                                    <option value="other" ${currentFactors.birthControlType === 'other' ? 'selected' : ''}>Other</option>
                                 </select>
                             ` : ''}
                         </div>
@@ -494,10 +507,10 @@
                             </div>
                             ${currentFactors.sick ? `
                                 <select id="sickSelect" style="background:#f3e6f3; border-radius:30px; padding:10px;">
-                                    <option value="cold" ${currentFactors.sickType==='cold'?'selected':''}>Cold</option>
-                                    <option value="flu" ${currentFactors.sickType==='flu'?'selected':''}>Flu</option>
-                                    <option value="allergies" ${currentFactors.sickType==='allergies'?'selected':''}>Allergies</option>
-                                    <option value="other" ${currentFactors.sickType==='other'?'selected':''}>Other</option>
+                                    <option value="cold" ${currentFactors.sickType === 'cold' ? 'selected' : ''}>Cold</option>
+                                    <option value="flu" ${currentFactors.sickType === 'flu' ? 'selected' : ''}>Flu</option>
+                                    <option value="allergies" ${currentFactors.sickType === 'allergies' ? 'selected' : ''}>Allergies</option>
+                                    <option value="other" ${currentFactors.sickType === 'other' ? 'selected' : ''}>Other</option>
                                 </select>
                             ` : ''}
                         </div>
@@ -516,7 +529,7 @@
 
                     <div style="background: #faf2fd; border-radius: 30px; padding: 16px; margin: 20px 0;">
                         <span style="font-weight: 500;"><i class="fa-regular fa-clock"></i> Recent:</span> 
-                        ${symptomEntries["2026-02-20"] ? `Feb 20: "${symptomEntries["2026-02-20"].text.substring(0,30)}..."` : 'No recent'}
+                        ${symptomEntries["2026-02-20"] ? `Feb 20: "${symptomEntries["2026-02-20"].text.substring(0, 30)}..."` : 'No recent'}
                     </div>
                 `;
             }
@@ -526,8 +539,8 @@
                 const startDay = 6; // sat (feb 1 2026 is sunday? Actually 2026-02-01 is Sunday, but mock)
                 // easier: static grid
                 let days = [];
-                for (let i=1; i<=28; i++) {
-                    const dateStr = `2026-02-${String(i).padStart(2,'0')}`;
+                for (let i = 1; i <= 28; i++) {
+                    const dateStr = `2026-02-${String(i).padStart(2, '0')}`;
                     const hasEntry = symptomEntries[dateStr] ? true : false;
                     days.push({ date: i, hasEntry, dateStr });
                 }
@@ -546,7 +559,7 @@
                 `;
 
                 // leading empty cells (feb 1 2026 is sunday? let's assume sunday start -> 1 empty before)
-                for (let i=0; i<0; i++) calendarHtml += `<div></div>`; // sunday start
+                for (let i = 0; i < 0; i++) calendarHtml += `<div></div>`; // sunday start
 
                 days.forEach(d => {
                     let entryClass = d.hasEntry ? 'has-entry' : '';
@@ -592,8 +605,8 @@
                         <div class="insight-card">
                             <div style="font-weight: 600; margin-bottom: 14px;"><i class="fa-regular fa-message"></i> 7‑day snapshot</div>
                             <p style="line-height:1.5; margin-bottom: 16px;">${last7Summary}</p>
-                            <div class="pill">😴 Fatigue: ${entriesList.filter(([_,e])=>e.text.includes('tired')||e.text.includes('fatigue')||e.text.includes('energy')).length}</div>
-                            <div class="pill">🤕 Headache: ${entriesList.filter(([_,e])=>e.text.includes('headache')).length}</div>
+                            <div class="pill">😴 Fatigue: ${entriesList.filter(([_, e]) => e.text.includes('tired') || e.text.includes('fatigue') || e.text.includes('energy')).length}</div>
+                            <div class="pill">🤕 Headache: ${entriesList.filter(([_, e]) => e.text.includes('headache')).length}</div>
                         </div>
 
                         <div class="insight-card">
@@ -645,41 +658,41 @@
             // ----- EVENT HANDLERS -----
             function attachHomeEvents() {
                 // voice memo simulation
-                document.getElementById('simulateVoiceBtn')?.addEventListener('click', ()=>{
+                document.getElementById('simulateVoiceBtn')?.addEventListener('click', () => {
                     document.getElementById('symptomTextInput').value = "Simulated voice: I have a mild headache and feel tired.";
                 });
 
                 // chip toggles
-                document.getElementById('chipPeriod')?.addEventListener('click', ()=>{
+                document.getElementById('chipPeriod')?.addEventListener('click', () => {
                     currentFactors.period = !currentFactors.period;
                     updateScreen(); // re-render home
                 });
-                document.getElementById('chipBirthControl')?.addEventListener('click', ()=>{
+                document.getElementById('chipBirthControl')?.addEventListener('click', () => {
                     currentFactors.birthControl = !currentFactors.birthControl;
                     updateScreen();
                 });
-                document.getElementById('chipSick')?.addEventListener('click', ()=>{
+                document.getElementById('chipSick')?.addEventListener('click', () => {
                     currentFactors.sick = !currentFactors.sick;
                     updateScreen();
                 });
 
                 // selects & slider
-                document.getElementById('periodFlowSelect')?.addEventListener('change', (e)=>{
+                document.getElementById('periodFlowSelect')?.addEventListener('change', (e) => {
                     currentFactors.periodFlow = e.target.value;
                 });
-                document.getElementById('birthControlSelect')?.addEventListener('change', (e)=>{
+                document.getElementById('birthControlSelect')?.addEventListener('change', (e) => {
                     currentFactors.birthControlType = e.target.value;
                 });
-                document.getElementById('sickSelect')?.addEventListener('change', (e)=>{
+                document.getElementById('sickSelect')?.addEventListener('change', (e) => {
                     currentFactors.sickType = e.target.value;
                 });
-                document.getElementById('stressSlider')?.addEventListener('input', (e)=>{
+                document.getElementById('stressSlider')?.addEventListener('input', (e) => {
                     document.getElementById('stressValue').innerText = e.target.value + '/5';
                     currentFactors.stress = parseInt(e.target.value);
                 });
 
                 // save button
-                document.getElementById('saveEntryBtn')?.addEventListener('click', ()=>{
+                document.getElementById('saveEntryBtn')?.addEventListener('click', () => {
                     const textarea = document.getElementById('symptomTextInput');
                     const text = textarea.value;
                     const today = getTodayDate();
@@ -695,7 +708,7 @@
                     symptomEntries[today] = {
                         text: text,
                         factors: savedFactors,
-                        transcript: "" 
+                        transcript: ""
                     };
 
                     localStorage.setItem('herhealth_demo_entries', JSON.stringify(symptomEntries));
@@ -705,7 +718,7 @@
 
             function attachCalendarEvents() {
                 document.querySelectorAll('.day-cell[data-date]').forEach(cell => {
-                    cell.addEventListener('click', (e)=>{
+                    cell.addEventListener('click', (e) => {
                         const dateStr = cell.dataset.date;
                         const entry = symptomEntries[dateStr];
                         const previewDiv = document.getElementById('calendarPreview');
@@ -721,14 +734,14 @@
             }
 
             function attachInsightsEvents() {
-                document.getElementById('mockDocBtn')?.addEventListener('click', ()=>{
+                document.getElementById('mockDocBtn')?.addEventListener('click', () => {
                     alert('📋 Summary copied (simulated) — take this to your doctor!');
                 });
             }
 
             // ----- TABS -----
             document.querySelectorAll('.tab-item').forEach(tab => {
-                tab.addEventListener('click', (e)=>{
+                tab.addEventListener('click', (e) => {
                     document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
                     tab.classList.add('active');
                     activeTab = tab.dataset.tab;
@@ -741,6 +754,8 @@
         })();
     </script>
     <!-- dummy disclaimer -->
-    <div style="position: fixed; bottom: 8px; left:0; right:0; text-align:center; font-size:11px; color:#a58ba5;">prototype for hackathon – data saved in browser</div>
+    <div style="position: fixed; bottom: 8px; left:0; right:0; text-align:center; font-size:11px; color:#a58ba5;">
+        prototype for hackathon – data saved in browser</div>
 </body>
+
 </html>
