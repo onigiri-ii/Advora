@@ -1,6 +1,7 @@
+google-genai==1.0.0  # New SDK
 Flask==3.0.0
 Flask-CORS==4.0.0
 python-dotenv==1.0.0
-supabase==2.0.0
+supabase>=2.0.0
 requests==2.31.0
-google-genai==1.0.0  # New SDK
+elevenlabs==2.36.1
