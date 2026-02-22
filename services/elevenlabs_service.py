@@ -10,7 +10,7 @@ load_dotenv()
 app = Flask(__name__)
 
 #Elevenlabs set up
-eleven = ElevenLabs(api_key=os.getenv("ELEVENLABS_API_KEY"))
+eleven = ElevenLabs(api_key=os.getenv("sk_cddc283309b650b70a555f5e0438ee58d01be2c2f1d0de96"))
 
 #Supabase setup
 '''audio_url = (
