@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -309,11 +308,9 @@
             transition: 0.2s;
             color: #ffc0f0;
         }
-
         .voice-button:hover {
             background: #4a2a50;
         }
-
         .voice-button i {
             font-size: 24px;
             color: #ffb0f0;
@@ -332,11 +329,9 @@
             margin-bottom: 16px;
             color: #ffe0ff;
         }
-
         textarea:focus {
             border-color: #ff80d0;
         }
-
         textarea::placeholder {
             color: #a880a0;
         }
@@ -364,19 +359,16 @@
             border: 1px solid #5a3a60;
             user-select: none;
         }
-
         .symptom-chip i {
             font-size: 18px;
             color: #ffb0f0;
         }
-
         .symptom-chip.active {
             background: #8a4a80;
             color: white;
             border-color: #ffb0f0;
             box-shadow: 0 0 15px #ff80d0;
         }
-
         .symptom-chip.active i {
             color: white;
         }
@@ -404,7 +396,6 @@
             background: linear-gradient(90deg, #90ff90 0%, #ffff80 50%, #ff8080 100%);
             -webkit-appearance: none;
         }
-
         .pain-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 24px;
@@ -438,13 +429,11 @@
             border: 1px solid #5a3a60;
             user-select: none;
         }
-
         .chip.active {
             background: #8a4a80;
             color: white;
             border-color: #ffb0f0;
         }
-
         .chip.active i {
             color: white;
         }
@@ -463,7 +452,6 @@
             transition: 0.15s;
             box-shadow: 0 10px 20px -8px #ff80d0;
         }
-
         .save-button:hover {
             background: #d05ab0;
             transform: scale(1.01);
@@ -517,56 +505,23 @@
             transition: 0.2s;
             border: 1px solid transparent;
         }
-
         .day-cell:hover {
             transform: scale(1.05);
             border-color: #ff80d0;
         }
 
         /* Severity gradient backgrounds */
-        .severity-0 {
-            background: #2a1a30;
-        }
-
-        .severity-1 {
-            background: #ffb0f020;
-        }
-
-        .severity-2 {
-            background: #ff90e040;
-        }
-
-        .severity-3 {
-            background: #ff70d060;
-        }
-
-        .severity-4 {
-            background: #ff50c080;
-        }
-
-        .severity-5 {
-            background: #ff30b0a0;
-        }
-
-        .severity-6 {
-            background: #ff10a0c0;
-        }
-
-        .severity-7 {
-            background: #ff0090d0;
-        }
-
-        .severity-8 {
-            background: #e00080e0;
-        }
-
-        .severity-9 {
-            background: #c00070f0;
-        }
-
-        .severity-10 {
-            background: #a00060ff;
-        }
+        .severity-0 { background: #2a1a30; }
+        .severity-1 { background: #ffb0f020; }
+        .severity-2 { background: #ff90e040; }
+        .severity-3 { background: #ff70d060; }
+        .severity-4 { background: #ff50c080; }
+        .severity-5 { background: #ff30b0a0; }
+        .severity-6 { background: #ff10a0c0; }
+        .severity-7 { background: #ff0090d0; }
+        .severity-8 { background: #e00080e0; }
+        .severity-9 { background: #c00070f0; }
+        .severity-10 { background: #a00060ff; }
 
         .insight-card {
             background: #2a1d28;
@@ -602,7 +557,6 @@
             margin: 15px 0;
             flex-wrap: wrap;
         }
-
         .legend-item {
             display: flex;
             align-items: center;
@@ -610,7 +564,6 @@
             font-size: 12px;
             color: #b090b0;
         }
-
         .legend-color {
             width: 20px;
             height: 20px;
@@ -629,43 +582,6 @@
             margin: 5px;
         }
 
-        .footer-note {
-            color: #a880a0;
-            font-size: 12px;
-            text-align: center;
-            margin: 20px 0 10px;
-        }
-
-        .auth-container {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .auth-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .auth-header h1 {
-            color: #ffd0f0;
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        .auth-header p {
-            color: #b090b0;
-            font-size: 16px;
-        }
-
-        .auth-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            background: #1f1520;
-            padding: 8px;
         .logout-button {
             background: transparent;
             border: 2px solid #ff80d0;
@@ -690,26 +606,6 @@
             text-align: center;
             margin: 20px 0 10px;
         }
-
-        .auth-divider::before,
-        .auth-divider::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            width: 45%;
-            height: 1px;
-            background: #5a3a60;
-        }
-
-        .auth-divider::before {
-            left: 0;
-        }
-
-        .auth-divider::after {
-            right: 0;
-        }
-
-        .test-credentials {
         .flatpickr-calendar {
             background: #1f1520;
             border: 1px solid #ff80d0;
@@ -725,31 +621,6 @@
             color: #ffd0f0;
             }
 
-        .test-credentials small {
-            color: #b090b0;
-            font-size: 12px;
-            display: block;
-            margin: 5px 0;
-        }
-
-        .logout-button {
-            background: transparent;
-            border: 2px solid #ff80d0;
-            color: #ff80d0;
-            border-radius: 40px;
-            padding: 12px 24px;
-            font-weight: 600;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.15s;
-            margin-top: 20px;
-            width: 100%;
-        }
-
-        .logout-button:hover {
-            background: #ff80d020;
-            transform: scale(1.02);
-        }
         .flatpickr-day.selected {
             background: #ff80d0;
             border-color: #ff80d0;
@@ -760,13 +631,11 @@
             }
     </style>
 </head>
-
 <body>
     <div class="app-container" id="app">
         <div class="status-bar">
             <span>9:41</span>
-            <span><i class="fa-solid fa-signal"></i> <i class="fa-solid fa-wifi"></i> <i
-                    class="fa-solid fa-battery-full"></i></span>
+            <span><i class="fa-solid fa-signal"></i> <i class="fa-solid fa-wifi"></i> <i class="fa-solid fa-battery-full"></i></span>
         </div>
 
         <div class="screen-content" id="screenContent"></div>
@@ -792,36 +661,12 @@
     </div>
 
     <script>
-        (function () {
-            // ===== Mock user database =====
-            const users = [
-                { email: 'sarah@test.com', password: 'test123', name: 'Sarah', age: 28 },
-                { email: 'demo@herhealth.com', password: 'demo123', name: 'Demo User', age: 32 }
-            ];
         (function() {
             const users = [
                 { email: 'sarah@test.com', password: 'test123', name: 'Sarah', age: 28 },
                 { email: 'demo@herhealth.com', password: 'demo123', name: 'Demo User', age: 32 }
             ];
 
-            // ===== Auth state =====
-            let isAuthenticated = localStorage.getItem('herhealth_auth') === 'true';
-            let currentUser = isAuthenticated
-                ? (JSON.parse(localStorage.getItem('herhealth_user')) || { name: 'Sarah', email: 'sarah@test.com', age: 28 })
-                : null;
-
-            // ===== App state =====
-            const SYMPTOMS = [
-                { id: 'headache', label: 'Headache', icon: 'fa-solid fa-head-side-brain' },
-                { id: 'cramps', label: 'Cramps', icon: 'fa-solid fa-stomach' },
-                { id: 'nausea', label: 'Nausea', icon: 'fa-solid fa-face-frown' },
-                { id: 'fatigue', label: 'Fatigue', icon: 'fa-solid fa-bed' },
-                { id: 'brainFog', label: 'Brain Fog', icon: 'fa-solid fa-cloud' },
-                { id: 'bloating', label: 'Bloating', icon: 'fa-solid fa-circle' },
-                { id: 'breastTenderness', label: 'Tender Breasts', icon: 'fa-solid fa-heart' },
-                { id: 'backPain', label: 'Back Pain', icon: 'fa-solid fa-spine' },
-                { id: 'sex', label: 'Sex Frequency', icon: 'fa-solid fa-face-smile' }
-            ];
             let isAuthenticated = localStorage.getItem('herhealth_auth') === 'true';
             let currentUser = isAuthenticated ? 
                 JSON.parse(localStorage.getItem('herhealth_user')) || { name: 'Sarah', email: 'sarah@test.com', age: 28 } : 
@@ -840,12 +685,6 @@
                 { id: 'moodSwings', label: 'Mood', icon: 'fa-solid fa-face-smile' }
             ];
 
-            // user-specific entries
-            let symptomEntries = {};
-            if (isAuthenticated && currentUser) {
-                const userData = localStorage.getItem(`herhealth_data_${currentUser.email}`);
-                symptomEntries = userData ? JSON.parse(userData) : {};
-            }
             // Load entries from localStorage
             let symptomEntries = {};
             if (isAuthenticated && currentUser) {
@@ -886,24 +725,9 @@
 
             function getTodayDate() {
                 const d = new Date();
-                return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-            }
-            function getTodayDate() {
-                const d = new Date();
                 return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
             }
 
-            let activeTab = isAuthenticated ? "home" : "auth";
-            let authMode = "login"; // login | signup
-
-            let selectedSymptoms = [];
-            let painLevel = 3;
-            let currentFactors = {
-                period: false, periodFlow: "medium",
-                birthControl: false, birthControlType: "pill",
-                sick: false, sickType: "cold",
-                stress: 3
-            };
             let activeTab = "home";
             let selectedSymptoms = [];
             let painLevel = 3;
@@ -914,11 +738,6 @@
                 stress: 3
             };
 
-            function getSeverityClass(p) {
-                if (!p && p !== 0) return 'severity-0';
-                const level = Math.min(10, Math.max(0, Math.floor(p)));
-                return `severity-${level}`;
-            }
             let authMode = 'login';
             let entryDate = getTodayDate();
             let draftDate = null;
@@ -930,14 +749,6 @@
                 return `severity-${level}`;
             }
 
-            // ===== AUTH UI =====
-            function renderAuth() {
-                return `
-      <div class="auth-container">
-        <div class="auth-header">
-          <h1>🌸 HerHealth</h1>
-          <p>Your personal health advocate</p>
-        </div>
             function renderAuth() {
                 return `
                     <div class="auth-container">
@@ -983,14 +794,6 @@
 
                         <div class="auth-divider">or</div>
 
-        <div class="test-credentials">
-          <small>📧 sarah@test.com / test123</small>
-          <small>📧 demo@herhealth.com / demo123</small>
-          
-        </div>
-      </div>
-    `;
-            }
                         <div class="test-credentials">
                             <p><i class="fa-regular fa-flask"></i> Test Accounts</p>
                             <small>📧 sarah@test.com / test123</small>
@@ -1001,149 +804,11 @@
                 `;
             }
 
-            function attachAuthEvents() {
-                document.getElementById('loginTab')?.addEventListener('click', () => {
-                    authMode = 'login';
-                    updateScreen();
-                });
-
-                document.getElementById('signupTab')?.addEventListener('click', () => {
-                    authMode = 'signup';
-                    updateScreen();
-                });
-
-                document.getElementById('authSubmitBtn')?.addEventListener('click', () => {
-                    const email = (document.getElementById('authEmail')?.value || '').trim().toLowerCase();
-                    const password = document.getElementById('authPassword')?.value || '';
-
-                    if (authMode === 'login') {
-                        const user = users.find(u => u.email.toLowerCase() === email && u.password === password);
-                        if (!user) {
-                            alert('❌ Invalid email or password. Try: sarah@test.com / test123');
-                            return;
-                        }
-
-                        isAuthenticated = true;
-                        currentUser = { name: user.name, email: user.email, age: user.age };
-                        localStorage.setItem('herhealth_auth', 'true');
-                        localStorage.setItem('herhealth_user', JSON.stringify(currentUser));
-
-                        // load user-specific entries
-                        const userData = localStorage.getItem(`herhealth_data_${currentUser.email}`);
-                        symptomEntries = userData ? JSON.parse(userData) : {};
-
-                        activeTab = 'home';
-                        updateScreen();
-                        return;
-                    }
-
-                    // signup
-                    const name = (document.getElementById('signupName')?.value || '').trim();
-                    const age = parseInt(document.getElementById('signupAge')?.value || '', 10);
-
-                    if (!email || !password || !name || !Number.isFinite(age)) {
-                        alert('❌ Please fill in all fields');
-                        return;
-                    }
-
-                    if (users.some(u => u.email.toLowerCase() === email)) {
-                        alert('❌ User already exists. Please log in.');
-                        authMode = 'login';
-                        updateScreen();
-                        return;
-                    }
-
-                    // create user (demo only — not persistent beyond this page load)
-                    users.push({ email, password, name, age });
-
-                    isAuthenticated = true;
-                    currentUser = { name, email, age };
-                    localStorage.setItem('herhealth_auth', 'true');
-                    localStorage.setItem('herhealth_user', JSON.stringify(currentUser));
-
-                    symptomEntries = {};
-                    localStorage.setItem(`herhealth_data_${currentUser.email}`, JSON.stringify(symptomEntries));
-
-                    activeTab = 'home';
-                    updateScreen();
-                    alert('✅ Account created! Welcome to HerHealth.');
-                });
-            }
-
-            // ===== TABS =====
-            function renderTabs() {
-                const tabBar = document.getElementById('tabBar');
-                if (!tabBar) return;
-
-                if (!isAuthenticated) {
-                    tabBar.innerHTML = `
-        <div class="tab-item active" data-tab="auth">
-          <i class="fa-solid fa-lock"></i>
-          <span>Sign In</span>
-        </div>
-      `;
-                } else {
-                    tabBar.innerHTML = `
-        <div class="tab-item ${activeTab === 'home' ? 'active' : ''}" data-tab="home">
-          <i class="fa-solid fa-house"></i>
-          <span>Home</span>
-        </div>
-        <div class="tab-item ${activeTab === 'calendar' ? 'active' : ''}" data-tab="calendar">
-          <i class="fa-solid fa-calendar"></i>
-          <span>Calendar</span>
-        </div>
-        <div class="tab-item ${activeTab === 'insights' ? 'active' : ''}" data-tab="insights">
-          <i class="fa-solid fa-chart-line"></i>
-          <span>Insights</span>
-        </div>
-        <div class="tab-item ${activeTab === 'profile' ? 'active' : ''}" data-tab="profile">
-          <i class="fa-solid fa-user"></i>
-          <span>You</span>
-        </div>
-      `;
-                }
-
-                document.querySelectorAll('.tab-item').forEach(tab => {
-                    tab.addEventListener('click', () => {
-                        document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-                        tab.classList.add('active');
-                        activeTab = tab.dataset.tab;
-                        updateScreen();
-                    });
-                });
-            }
-
-            // ===== YOUR SCREENS (kept same structure) =====
-            function renderHome() {
-                const today = getTodayDate();
-                const existing = symptomEntries[today] || { text: "", symptoms: [], painLevel: 3, factors: null };
             function renderHome() {
                 const today = getTodayDate();
                 const dateToEdit = entryDate || today;
                 const existing = symptomEntries[dateToEdit] || { text: "", symptoms: [], painLevel: 3, factors: null };
 
-                if (existing.factors) {
-                    selectedSymptoms = existing.symptoms || [];
-                    painLevel = existing.painLevel || 3;
-
-                    if (existing.factors.period) {
-                        currentFactors.period = true;
-                        currentFactors.periodFlow = existing.factors.period !== true ? existing.factors.period : "medium";
-                    } else { currentFactors.period = false; }
-
-                    currentFactors.birthControl = !!existing.factors.birthControl;
-                    currentFactors.birthControlType = (typeof existing.factors.birthControl === 'string') ? existing.factors.birthControl : "pill";
-
-                    currentFactors.sick = !!existing.factors.sick;
-                    currentFactors.sickType = (typeof existing.factors.sick === 'string') ? existing.factors.sick : "cold";
-
-                    currentFactors.stress = existing.factors.stress || 3;
-                } else {
-                    // default edit state
-                    selectedSymptoms = [];
-                    painLevel = 3;
-                    currentFactors = { period: false, periodFlow: "medium", birthControl: false, birthControlType: "pill", sick: false, sickType: "cold", stress: 3 };
-                }
                 if (existing.factors) {
                     selectedSymptoms = existing.symptoms || [];
                     painLevel = existing.painLevel || 3;
@@ -1171,23 +836,12 @@
                             }
 
                 const symptomChips = SYMPTOMS.map(s => `
-      <div class="symptom-chip ${selectedSymptoms.includes(s.id) ? 'active' : ''}" data-symptom="${s.id}">
-        <i class="${s.icon}"></i>
-        <span>${s.label}</span>
-      </div>
-    `).join('');
-                const symptomChips = SYMPTOMS.map(s => `
                     <div class="symptom-chip ${selectedSymptoms.includes(s.id) ? 'active' : ''}" data-symptom="${s.id}">
                         <i class="${s.icon}"></i>
                         <span>${s.label}</span>
                     </div>
                 `).join('');
 
-                return `
-      <div style="margin-bottom: 8px;">
-        <div class="greeting">🌸 Hello, ${currentUser?.name || 'User'}</div>
-        <div class="sub-greeting"><i class="fa-regular fa-calendar-check"></i> Today's check-in • ${today}</div>
-      </div>
                 return `
                     <div style="margin-bottom: 8px;">
                         <div class="greeting">🌸 Hello, ${currentUser.name}</div>
@@ -1218,26 +872,6 @@
                             ${symptomChips}
                         </div>
 
-        <div class="pain-scale-container">
-          <div class="section-label"><i class="fa-solid fa-gauge-high"></i> Pain Level: <span id="painValue">${painLevel}</span>/10</div>
-          <div class="pain-scale-labels"><span>Mild</span><span>Moderate</span><span>Severe</span></div>
-          <input type="range" id="painSlider" class="pain-slider" min="1" max="10" value="${painLevel}" step="1">
-        </div>
-
-        <div class="section-label"><i class="fa-regular fa-face-smile"></i> Health factors</div>
-
-        <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:12px;">
-          <div class="chip ${currentFactors.period ? 'active' : ''}" id="chipPeriod">
-            <i class="fa-regular fa-calendar"></i> Period
-          </div>
-          ${currentFactors.period ? `
-            <select id="periodFlowSelect" style="background:#3a2340; color:#ffd0f0; border-radius:30px; padding:10px; border:1px solid #ff80d0;">
-              <option value="light" ${currentFactors.periodFlow === 'light' ? 'selected' : ''}>Light flow</option>
-              <option value="medium" ${currentFactors.periodFlow === 'medium' ? 'selected' : ''}>Medium flow</option>
-              <option value="heavy" ${currentFactors.periodFlow === 'heavy' ? 'selected' : ''}>Heavy flow</option>
-            </select>
-          ` : ''}
-        </div>
                         <div class="pain-scale-container">
                             <div class="section-label"><i class="fa-solid fa-gauge-high"></i> Pain Level: <span id="painValue">${painLevel}</span>/10</div>
                             <div class="pain-scale-labels">
@@ -1264,20 +898,6 @@
                         </select>
                         </div>
 
-        <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:12px;">
-          <div class="chip ${currentFactors.birthControl ? 'active' : ''}" id="chipBirthControl">
-            <i class="fa-solid fa-pills"></i> Birth control
-          </div>
-          ${currentFactors.birthControl ? `
-            <select id="birthControlSelect" style="background:#3a2340; color:#ffd0f0; border-radius:30px; padding:10px;">
-              <option value="pill" ${currentFactors.birthControlType === 'pill' ? 'selected' : ''}>Pill</option>
-              <option value="iud" ${currentFactors.birthControlType === 'iud' ? 'selected' : ''}>IUD</option>
-              <option value="implant" ${currentFactors.birthControlType === 'implant' ? 'selected' : ''}>Implant</option>
-              <option value="shots" ${currentFactors.birthControlType === 'shots' ? 'selected' : ''}>Shots</option>
-              <option value="other" ${currentFactors.birthControlType === 'other' ? 'selected' : ''}>Other</option>
-            </select>
-          ` : ''}
-        </div>
                         <!-- Birth control chip -->
                         <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px;">
                         <div class="chip ${currentFactors.birthControl ? 'active' : ''}" id="chipBirthControl">
@@ -1292,19 +912,6 @@
                         </select>
                         </div>
 
-        <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:12px;">
-          <div class="chip ${currentFactors.sick ? 'active' : ''}" id="chipSick">
-            <i class="fa-solid fa-face-frown"></i> Feeling sick
-          </div>
-          ${currentFactors.sick ? `
-            <select id="sickSelect" style="background:#3a2340; color:#ffd0f0; border-radius:30px; padding:10px;">
-              <option value="cold" ${currentFactors.sickType === 'cold' ? 'selected' : ''}>Cold</option>
-              <option value="flu" ${currentFactors.sickType === 'flu' ? 'selected' : ''}>Flu</option>
-              <option value="allergies" ${currentFactors.sickType === 'allergies' ? 'selected' : ''}>Allergies</option>
-              <option value="other" ${currentFactors.sickType === 'other' ? 'selected' : ''}>Other</option>
-            </select>
-          ` : ''}
-        </div>
                         <!-- Sick chip -->
                         <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px;">
                         <div class="chip ${currentFactors.sick ? 'active' : ''}" id="chipSick">
@@ -1328,12 +935,6 @@
                             <input type="range" id="stressSlider" min="1" max="5" value="${currentFactors.stress}" style="width:100%; background:#3a2340;">
                         </div>
 
-        <button class="save-button" id="saveEntryBtn">
-          <i class="fa-regular fa-floppy-disk"></i> Save Today's Entry
-        </button>
-      </div>
-    `;
-            }
                         <button class="save-button" id="saveEntryBtn">
                             <i class="fa-regular fa-floppy-disk"></i> Save Today's Entry
                         </button>
@@ -1341,14 +942,6 @@
                 `;
             }
 
-            function renderCalendar() {
-                const days = [];
-                for (let i = 1; i <= 28; i++) {
-                    const dateStr = `2026-02-${String(i).padStart(2, '0')}`;
-                    const entry = symptomEntries[dateStr];
-                    const p = entry?.painLevel || 0;
-                    days.push({ date: i, dateStr, hasEntry: !!entry, painLevel: p, entry });
-                }
             function renderCalendar() {
                 const days = [];
                 for (let i = 1; i <= 28; i++) {
@@ -1364,26 +957,6 @@
                     });
                 }
 
-                let calendarHtml = `
-      <div class="calendar-placeholder">
-        <div class="month-header">
-          <span><i class="fa-regular fa-chevron-left"></i></span>
-          <span>February 2026</span>
-          <span><i class="fa-regular fa-chevron-right"></i></span>
-        </div>
-
-        <div class="severity-legend">
-          <div class="legend-item"><span class="legend-color severity-1"></span> Mild (1-3)</div>
-          <div class="legend-item"><span class="legend-color severity-5"></span> Moderate (4-7)</div>
-          <div class="legend-item"><span class="legend-color severity-9"></span> Severe (8-10)</div>
-        </div>
-
-        <div class="weekdays">
-          <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
-        </div>
-
-        <div class="days-grid" id="calendarDays">
-    `;
                 let calendarHtml = `
                     <div class="calendar-placeholder">
                         <div class="month-header">
@@ -1406,10 +979,6 @@
 
                 days.forEach(d => {
                     const severityClass = d.hasEntry ? getSeverityClass(d.painLevel) : 'severity-0';
-                    calendarHtml += `<div class="day-cell ${severityClass}" data-date="${d.dateStr}">${d.date}</div>`;
-                });
-                days.forEach(d => {
-                    const severityClass = d.hasEntry ? getSeverityClass(d.painLevel) : 'severity-0';
                     const symptomIcons = d.entry?.symptoms?.slice(0, 2).map(s => {
                         const sym = SYMPTOMS.find(sym => sym.id === s);
                         return sym ? `<i class="${sym.icon}" style="font-size: 8px; margin: 0 1px;"></i>` : '';
@@ -1425,14 +994,6 @@
                     `;
                 });
 
-                calendarHtml += `</div></div>
-      <div id="calendarPreview" style="background:#2a1d28; border-radius:28px; padding:20px; margin-top:20px; border:1px solid #ffb0e020;">
-        <div style="color:#ffd0f0; margin-bottom:10px;"><i class="fa-regular fa-circle-info"></i> Tap a date to see details</div>
-        <div id="previewContent" style="color:#e0c0e0; min-height:60px;"></div>
-      </div>
-    `;
-                return calendarHtml;
-            }
                 calendarHtml += `</div></div>`;
 
                 // Preview area
@@ -1446,19 +1007,6 @@
                 return calendarHtml;
             }
 
-            function renderInsights() {
-                return `
-      <div style="margin-top: 8px;">
-        <div class="greeting" style="font-size: 22px;">📊 Health Intelligence</div>
-
-        <div class="insight-card">
-          <div style="font-weight: 600; margin-bottom: 14px; color:#ffd0f0;">
-            <i class="fa-solid fa-chart-line"></i> Pain Severity Trend
-          </div>
-          <div class="chart-container">
-            <canvas id="painChart"></canvas>
-          </div>
-        </div>
             function renderInsights() {
                 // Prepare data for charts
                 const last14Days = [];
@@ -1511,17 +1059,6 @@
                             </div>
                         </div>
 
-        <div class="insight-card">
-          <div style="font-weight: 600; margin-bottom: 14px; color:#ffd0f0;">
-            <i class="fa-solid fa-file-medical"></i> Doctor Discussion Guide
-          </div>
-          <button class="save-button" id="mockDocBtn" style="padding: 12px; font-size: 14px;">
-            <i class="fa-regular fa-copy"></i> Generate Full Report
-          </button>
-        </div>
-      </div>
-    `;
-            }
                         <!-- Key Insights Grid -->
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
                             <div class="insight-card" style="padding: 16px;">
@@ -1587,16 +1124,6 @@
             function renderProfile() {
                 const totalEntries = Object.keys(symptomEntries).length;
                 return `
-      <div style="text-align: center; padding: 20px 0;">
-        <div style="background: #8a4a80; width: 100px; height: 100px; border-radius: 50%; margin: 10px auto; display: flex; align-items: center; justify-content: center; font-size: 48px; border: 3px solid #ffb0f0;">
-          👩
-        </div>
-
-        <h3 style="color:#ffe0ff;">${currentUser?.name || 'User'}, ${currentUser?.age || ''}</h3>
-        <p style="color:#d0b0d0;">${currentUser?.email || ''} • ${totalEntries} entries</p>
-            function renderProfile() {
-                const totalEntries = Object.keys(symptomEntries).length;
-                return `
                     <div style="text-align: center; padding: 20px 0;">
                         <div style="background: #8a4a80; width: 100px; height: 100px; border-radius: 50%; margin: 10px auto; display: flex; align-items: center; justify-content: center; font-size: 48px; border: 3px solid #ffb0f0;">
                         </div>
@@ -1640,10 +1167,6 @@
                             <i class="fa-solid fa-sign-out-alt"></i> Log Out
                         </button>
 
-        <p class="footer-note">🔐 Demo login (stored locally)</p>
-      </div>
-    `;
-            }
                         <p class="footer-note">🔐 Your data is private and encrypted</p>
                     </div>
                 `;
@@ -1833,18 +1356,6 @@
                     document.getElementById('symptomTextInput').value = "I have a pounding headache and feel nauseous. Really tired today.";
                 });
 
-                document.querySelectorAll('.symptom-chip').forEach(chip => {
-                    chip.addEventListener('click', () => {
-                        const symptom = chip.dataset.symptom;
-                        if (selectedSymptoms.includes(symptom)) {
-                            selectedSymptoms = selectedSymptoms.filter(s => s !== symptom);
-                            chip.classList.remove('active');
-                        } else {
-                            selectedSymptoms.push(symptom);
-                            chip.classList.add('active');
-                        }
-                    });
-                });
                 // Symptom chips
                 document.querySelectorAll('.symptom-chip').forEach(chip => {
                     chip.addEventListener('click', () => {
@@ -1859,21 +1370,12 @@
                     });
                 });
 
-                document.getElementById('painSlider')?.addEventListener('input', (e) => {
-                    painLevel = parseInt(e.target.value, 10);
-                    const pv = document.getElementById('painValue');
-                    if (pv) pv.innerText = painLevel;
-                });
                 // Pain slider
                 document.getElementById('painSlider')?.addEventListener('input', (e) => {
                     painLevel = parseInt(e.target.value);
                     document.getElementById('painValue').innerText = painLevel;
                 });
 
-                document.getElementById('chipPeriod')?.addEventListener('click', () => {
-                    currentFactors.period = !currentFactors.period;
-                    updateScreen();
-                });
                 // Period chip
                 document.getElementById('chipPeriod')?.addEventListener('click', () => {
                 currentFactors.period = !currentFactors.period;
@@ -1885,10 +1387,6 @@
                 });
 
                 document.getElementById('chipBirthControl')?.addEventListener('click', () => {
-                    currentFactors.birthControl = !currentFactors.birthControl;
-                    updateScreen();
-                });
-                document.getElementById('chipBirthControl')?.addEventListener('click', () => {
                 currentFactors.birthControl = !currentFactors.birthControl;
 
                 const chip = document.getElementById('chipBirthControl');
@@ -1897,14 +1395,6 @@
                 if (sel) sel.style.display = currentFactors.birthControl ? 'block' : 'none';
                 });
 
-                document.getElementById('chipSick')?.addEventListener('click', () => {
-                    currentFactors.sick = !currentFactors.sick;
-                    updateScreen();
-                });
-
-                document.getElementById('periodFlowSelect')?.addEventListener('change', (e) => {
-                    currentFactors.periodFlow = e.target.value;
-                });
                 document.getElementById('chipSick')?.addEventListener('click', () => {
                 currentFactors.sick = !currentFactors.sick;
 
@@ -1922,37 +1412,16 @@
                 document.getElementById('birthControlSelect')?.addEventListener('change', (e) => {
                     currentFactors.birthControlType = e.target.value;
                 });
-                document.getElementById('birthControlSelect')?.addEventListener('change', (e) => {
-                    currentFactors.birthControlType = e.target.value;
-                });
 
                 document.getElementById('sickSelect')?.addEventListener('change', (e) => {
                     currentFactors.sickType = e.target.value;
                 });
-                document.getElementById('sickSelect')?.addEventListener('change', (e) => {
-                    currentFactors.sickType = e.target.value;
-                });
 
-                document.getElementById('stressSlider')?.addEventListener('input', (e) => {
-                    currentFactors.stress = parseInt(e.target.value, 10);
-                    const sv = document.getElementById('stressValue');
-                    if (sv) sv.innerText = currentFactors.stress + '/5';
-                });
                 document.getElementById('stressSlider')?.addEventListener('input', (e) => {
                     currentFactors.stress = parseInt(e.target.value);
                     document.getElementById('stressValue').innerText = currentFactors.stress + '/5';
                 });
 
-                document.getElementById('saveEntryBtn')?.addEventListener('click', () => {
-                    const text = document.getElementById('symptomTextInput')?.value || '';
-                    const today = getTodayDate();
-
-                    const savedFactors = {
-                        period: currentFactors.period ? currentFactors.periodFlow : false,
-                        birthControl: currentFactors.birthControl ? currentFactors.birthControlType : false,
-                        sick: currentFactors.sick ? currentFactors.sickType : false,
-                        stress: currentFactors.stress
-                    };
                 // Save button
                 document.getElementById('saveEntryBtn')?.addEventListener('click', () => {
                     const text = document.getElementById('symptomTextInput').value;
@@ -1965,12 +1434,6 @@
                         stress: currentFactors.stress
                     };
 
-                    symptomEntries[today] = {
-                        text,
-                        symptoms: selectedSymptoms,
-                        painLevel,
-                        factors: savedFactors
-                    };
                     symptomEntries[dateToSave] = {
                         text: text,
                         symptoms: selectedSymptoms,
@@ -1981,15 +1444,7 @@
                     if (currentUser) {
                         localStorage.setItem(`herhealth_data_${currentUser.email}`, JSON.stringify(symptomEntries));
                     }
-                    if (currentUser) {
-                        localStorage.setItem(`herhealth_data_${currentUser.email}`, JSON.stringify(symptomEntries));
-                    }
 
-                    alert('✅ Entry saved!');
-                    activeTab = 'insights';
-                    updateScreen();
-                });
-            }
                     alert('✅ Entry saved! Check Insights for AI analysis.');
                     
                     // Switch to insights tab to show the new data
@@ -2000,31 +1455,6 @@
                 });
             }
 
-            function attachCalendarEvents() {
-                document.querySelectorAll('.day-cell[data-date]').forEach(cell => {
-                    cell.addEventListener('click', () => {
-                        const dateStr = cell.dataset.date;
-                        const entry = symptomEntries[dateStr];
-                        const previewDiv = document.getElementById('previewContent');
-                        if (!previewDiv) return;
-
-                        if (!entry) {
-                            previewDiv.innerHTML = `<span style="color:#b090b0;">No entry for this date.</span>`;
-                            return;
-                        }
-
-                        previewDiv.innerHTML = `
-          <strong style="color:#ffb0f0;">${dateStr}</strong><br>
-          <span style="color:#ffe0ff;">"${entry.text}"</span><br>
-          <div style="margin-top: 8px;">
-            <span class="pill">Pain: ${entry.painLevel}/10</span>
-            <span class="pill">Symptoms: ${(entry.symptoms || []).join(', ') || 'none'}</span>
-            ${entry.factors?.period ? '<span class="pill">Period</span>' : ''}
-          </div>
-        `;
-                    });
-                });
-            }
             function attachCalendarEvents() {
                 document.querySelectorAll('.day-cell[data-date]').forEach(cell => {
                     cell.addEventListener('click', (e) => {
@@ -2057,22 +1487,6 @@
             }
 
             function attachInsightsEvents() {
-                document.getElementById('mockDocBtn')?.addEventListener('click', () => {
-                    alert('📋 Health report generated! (Demo)');
-                });
-
-                const ctx = document.getElementById('painChart')?.getContext('2d');
-                if (!ctx) return;
-
-                const labels = [];
-                const data = [];
-                for (let i = 14; i >= 0; i--) {
-                    const d = new Date(2026, 1, 21 - i);
-                    const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-                    labels.push(`${d.getMonth() + 1}/${d.getDate()}`);
-                    data.push(symptomEntries[dateStr]?.painLevel || null);
-                }
-            function attachInsightsEvents() {
                 // Create pain chart
                 const ctx = document.getElementById('painChart')?.getContext('2d');
                 if (ctx) {
@@ -2088,64 +1502,6 @@
                         painData.push(entry?.painLevel || null);
                     }
 
-                new Chart(ctx, {
-                    type: 'line',
-                    data: { labels, datasets: [{ data, borderColor: '#ff80d0', backgroundColor: 'rgba(255,128,208,0.1)', tension: 0.4, fill: true }] },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-                });
-            }
-
-            function attachProfileEvents() {
-                document.getElementById('logoutBtn')?.addEventListener('click', () => {
-                    if (currentUser) {
-                        localStorage.setItem(`herhealth_data_${currentUser.email}`, JSON.stringify(symptomEntries));
-                    }
-
-                    isAuthenticated = false;
-                    currentUser = null;
-                    localStorage.removeItem('herhealth_auth');
-                    localStorage.removeItem('herhealth_user');
-
-                    activeTab = 'auth';
-                    updateScreen();
-                });
-            }
-
-            // ===== MAIN RENDER =====
-            function updateScreen() {
-                const contentDiv = document.getElementById('screenContent');
-                if (!contentDiv) return;
-
-                renderTabs();
-
-                if (!isAuthenticated) {
-                    contentDiv.innerHTML = renderAuth();
-                    attachAuthEvents();
-                    return;
-                }
-
-                switch (activeTab) {
-                    case 'home':
-                        contentDiv.innerHTML = renderHome();
-                        attachHomeEvents();
-                        break;
-                    case 'calendar':
-                        contentDiv.innerHTML = renderCalendar();
-                        attachCalendarEvents();
-                        break;
-                    case 'insights':
-                        contentDiv.innerHTML = renderInsights();
-                        setTimeout(() => attachInsightsEvents(), 50);
-                        break;
-                    case 'profile':
-                        contentDiv.innerHTML = renderProfile();
-                        attachProfileEvents();
-                        break;
-                    default:
-                        activeTab = 'home';
-                        updateScreen();
-                }
-            }
                     new Chart(ctx, {
                         type: 'line',
                         data: {
@@ -2198,17 +1554,10 @@
                 });
             });
 
-            // init
-            updateScreen();
-        })();
-    </script>
-    <div style="position: fixed; bottom: 8px; left:0; right:0; text-align:center; font-size:11px; color:#b090b0;">✨
-        HerHealth Intelligence • Enhanced with structured symptoms & severity tracking</div>
             // Initial render
             updateScreen();
         })();
     </script>
     <!--<div style="position: fixed; bottom: 8px; left:0; right:0; text-align:center; font-size:11px; color:#b090b0;">✨ HerHealth Intelligence • Enhanced with structured symptoms & severity tracking</div>-->
 </body>
-
 </html>
