@@ -732,16 +732,17 @@
                 null;
 
             // Symptom library with icons
+            // Symptom library with icons - using only reliable free icons
             const SYMPTOMS = [
-                { id: 'headache', label: 'Headache', icon: 'fa-solid fa-head-side-brain' },
-                { id: 'cramps', label: 'Cramps', icon: 'fa-solid fa-stomach' },
+                { id: 'headache', label: 'Headache', icon: 'fa-solid fa-brain' }, // Changed from head-side-brain
+                { id: 'cramps', label: 'Cramps', icon: 'fa-solid fa-bolt' },
                 { id: 'nausea', label: 'Nausea', icon: 'fa-solid fa-face-frown' },
                 { id: 'fatigue', label: 'Fatigue', icon: 'fa-solid fa-bed' },
                 { id: 'brainFog', label: 'Brain Fog', icon: 'fa-solid fa-cloud' },
                 { id: 'bloating', label: 'Bloating', icon: 'fa-solid fa-circle' },
                 { id: 'breastTenderness', label: 'Breast', icon: 'fa-solid fa-heart' },
-                { id: 'backPain', label: 'Back Pain', icon: 'fa-solid fa-spine' },
-                { id: 'moodSwings', label: 'Mood', icon: 'fa-solid fa-face-smile' }
+                { id: 'backPain', label: 'Back Pain', icon: 'fa-solid fa-ribbon' }, // Changed from spine
+                { id: 'sex', label: 'Sex', icon: 'fa-solid fa-face-smile' }
             ];
 
             // Load entries from localStorage
@@ -1183,52 +1184,53 @@
             function renderProfile() {
                 const totalEntries = Object.keys(symptomEntries).length;
                 return `
-                    <div style="text-align: center; padding: 20px 0;">
-                        <div style="background: #8a4a80; width: 100px; height: 100px; border-radius: 50%; margin: 10px auto; display: flex; align-items: center; justify-content: center; font-size: 48px; border: 3px solid #ffb0f0;">
+                <div style="text-align: center; padding: 20px 0;">
+                    <div style="background: #8a4a80; width: 100px; height: 100px; border-radius: 50%; margin: 10px auto; display: flex; align-items: center; justify-content: center; font-size: 48px; border: 3px solid #ffb0f0;">
+    🐦
+</div>
+                    <h3 style="color:#ffe0ff;">${currentUser.name}, ${currentUser.age}</h3>
+                    <p style="color:#d0b0d0;">Member since Feb 2026 • ${totalEntries} entries</p>
+                    
+                    <div style="background: #2a1d28; border-radius: 30px; padding: 24px; margin-top: 30px; border:1px solid #ffb0e020;">
+                        <div style="display: flex; justify-content: space-between; margin: 10px 0; color:#ffd0f0;">
+                            <span>Avg cycle length</span> 
+                            <strong>28 days</strong>
                         </div>
-                        <h3 style="color:#ffe0ff;">${currentUser.name}, ${currentUser.age}</h3>
-                        <p style="color:#d0b0d0;">Member since Feb 2026 • ${totalEntries} entries</p>
-                        
-                        <div style="background: #2a1d28; border-radius: 30px; padding: 24px; margin-top: 30px; border:1px solid #ffb0e020;">
-                            <div style="display: flex; justify-content: space-between; margin: 10px 0; color:#ffd0f0;">
-                                <span>Avg cycle length</span> 
-                                <strong>28 days</strong>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; margin: 10px 0; color:#ffd0f0;">
-                                <span>Birth control</span> 
-                                <strong>Combination pill</strong>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; margin: 10px 0; color:#ffd0f0;">
-                                <span>Last period</span> 
-                                <strong>Feb 18</strong>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; margin: 10px 0; color:#ffd0f0;">
-                                <span>Tracking streak</span> 
-                                <strong>14 days</strong>
-                            </div>
+                        <div style="display: flex; justify-content: space-between; margin: 10px 0; color:#ffd0f0;">
+                            <span>Birth control</span> 
+                            <strong>Combination pill</strong>
                         </div>
-
-                        <div style="background: #2a1d28; border-radius: 30px; padding: 24px; margin-top: 20px;">
-                            <div style="font-weight: 600; margin-bottom: 15px; color:#ffd0f0;">Health Summary</div>
-                            <div style="display: grid; grid-template-columns: repeat(2,1fr); gap: 15px;">
-                                <div>
-                                    <div style="font-size: 28px; color:#ffb0f0;">${totalEntries}</div>
-                                    <div style="font-size: 12px; color:#b090b0;">Days tracked</div>
-                                </div>
-                                <div>
-                                    <div style="font-size: 28px; color:#ffb0f0;">${Object.values(symptomEntries).filter(e => e.factors?.period).length}</div>
-                                    <div style="font-size: 12px; color:#b090b0;">Period days</div>
-                                </div>
-                            </div>
+                        <div style="display: flex; justify-content: space-between; margin: 10px 0; color:#ffd0f0;">
+                            <span>Last period</span> 
+                            <strong>Feb 18</strong>
                         </div>
-
-                        <button class="logout-button" id="logoutBtn">
-                            <i class="fa-solid fa-sign-out-alt"></i> Log Out
-                        </button>
-
-                        <p class="footer-note">🔐 Your data is private and encrypted</p>
+                        <div style="display: flex; justify-content: space-between; margin: 10px 0; color:#ffd0f0;">
+                            <span>Tracking streak</span> 
+                            <strong>14 days</strong>
+                        </div>
                     </div>
-                `;
+
+                    <div style="background: #2a1d28; border-radius: 30px; padding: 24px; margin-top: 20px;">
+                        <div style="font-weight: 600; margin-bottom: 15px; color:#ffd0f0;">Health Summary</div>
+                        <div style="display: grid; grid-template-columns: repeat(2,1fr); gap: 15px;">
+                            <div>
+                                <div style="font-size: 28px; color:#ffb0f0;">${totalEntries}</div>
+                                <div style="font-size: 12px; color:#b090b0;">Days tracked</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 28px; color:#ffb0f0;">${Object.values(symptomEntries).filter(e => e.factors?.period).length}</div>
+                                <div style="font-size: 12px; color:#b090b0;">Period days</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="logout-button" id="logoutBtn">
+                        <i class="fa-solid fa-sign-out-alt"></i> Log Out
+                    </button>
+
+                    <p class="footer-note">🔐 Your data is private and encrypted</p>
+                </div>
+            `;
             }
 
             function renderTabs() {
