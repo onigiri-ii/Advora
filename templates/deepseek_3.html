@@ -17,7 +17,7 @@
         }
 
         body {
-            background: linear-gradient(145deg, #f8f2f7 0%, #f0eaf4 100%);
+            background: linear-gradient(145deg, #1a1219 0%, #2a1a28 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -28,16 +28,17 @@
         .app-container {
             max-width: 420px;
             width: 100%;
-            height: 780px;
-            background: rgba(255, 255, 255, 0.75);
+            height: 800px;
+            background: rgba(30, 20, 30, 0.95);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-radius: 42px;
-            box-shadow: 0 30px 60px rgba(154, 97, 152, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 200, 240, 0.2) inset;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             position: relative;
+            border: 1px solid #ffd0e630;
         }
 
         .status-bar {
@@ -45,7 +46,7 @@
             display: flex;
             justify-content: space-between;
             font-weight: 500;
-            color: #5e4b5e;
+            color: #e0c0e0;
             font-size: 15px;
         }
 
@@ -54,20 +55,18 @@
             overflow-y: auto;
             padding: 8px 20px 16px;
             scrollbar-width: thin;
-            scrollbar-color: #c7b5cf #f1e4ed;
+            scrollbar-color: #b294b2 #2a1d2a;
         }
 
         .screen-content::-webkit-scrollbar {
             width: 5px;
         }
-
         .screen-content::-webkit-scrollbar-track {
-            background: #f1e4ed;
+            background: #2a1d2a;
             border-radius: 20px;
         }
-
         .screen-content::-webkit-scrollbar-thumb {
-            background: #c7b5cf;
+            background: #b294b2;
             border-radius: 20px;
         }
 
@@ -123,6 +122,156 @@
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+
+        /* Auth Styles */
+        .auth-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .auth-header h1 {
+            color: #ffd0f0;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .auth-header p {
+            color: #b090b0;
+            font-size: 16px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: #1f1520;
+            padding: 8px;
+            border-radius: 40px;
+            border: 1px solid #5a3a60;
+        }
+
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 14px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #b090b0;
+            transition: all 0.2s;
+        }
+
+        .auth-tab.active {
+            background: #8a4a80;
+            color: white;
+            box-shadow: 0 0 20px #ff80d0;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .auth-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .auth-input-group label {
+            color: #ffd0f0;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .auth-input {
+            background: #1f1520;
+            border: 2px solid #5a3a60;
+            border-radius: 30px;
+            padding: 16px 20px;
+            color: #ffe0ff;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        .auth-input:focus {
+            outline: none;
+            border-color: #ff80d0;
+            box-shadow: 0 0 15px #ff80d080;
+        }
+
+        .auth-input::placeholder {
+            color: #a880a0;
+        }
+
+        .auth-button {
+            background: #b84a9e;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 18px;
+            font-weight: 600;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.15s;
+            box-shadow: 0 10px 20px -8px #ff80d0;
+            margin-top: 20px;
+        }
+
+        .auth-button:hover {
+            background: #d05ab0;
+            transform: scale(1.02);
+        }
+
+        .auth-divider {
+            text-align: center;
+            color: #b090b0;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 45%;
+            height: 1px;
+            background: #5a3a60;
+        }
+
+        .auth-divider::before { left: 0; }
+        .auth-divider::after { right: 0; }
+
+        .test-credentials {
+            background: #2a1d28;
+            border-radius: 20px;
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px solid #ffb0e040;
+        }
+
+        .test-credentials p {
+            color: #ffb0f0;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .test-credentials small {
+            color: #b090b0;
+            font-size: 12px;
+            display: block;
+            margin: 5px 0;
         }
 
         .input-card {
@@ -185,7 +334,6 @@
             color: #a880a0;
         }
 
-        /* Symptom chips grid */
         .symptom-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -223,7 +371,6 @@
             color: white;
         }
 
-        /* Pain scale slider */
         .pain-scale-container {
             background: #1f1520;
             border-radius: 40px;
@@ -308,7 +455,6 @@
             transform: scale(1.01);
         }
 
-        /* Calendar with severity gradients */
         .calendar-placeholder {
             background: #2a1d28;
             border-radius: 32px;
@@ -361,7 +507,6 @@
             border-color: #ff80d0;
         }
 
-        /* Severity gradient backgrounds */
         .severity-0 { background: #2a1a30; }
         .severity-1 { background: #ffb0f020; }
         .severity-2 { background: #ff90e040; }
@@ -382,7 +527,6 @@
             border: 1px solid #ffb0e020;
         }
 
-        /* Chart container */
         .chart-container {
             background: #1f1520;
             border-radius: 24px;
@@ -433,6 +577,24 @@
             margin: 5px;
         }
 
+        .logout-button {
+            background: transparent;
+            border: 2px solid #ff80d0;
+            color: #ff80d0;
+            border-radius: 40px;
+            padding: 12px 24px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.15s;
+            margin-top: 20px;
+            width: 100%;
+        }
+        .logout-button:hover {
+            background: #ff80d020;
+            transform: scale(1.02);
+        }
+
         .footer-note {
             color: #a880a0;
             font-size: 12px;
@@ -450,29 +612,24 @@
 
         <div class="screen-content" id="screenContent"></div>
 
-        <div class="tab-bar">
-            <div class="tab-item active" data-tab="home" id="tabHome">
-                <i class="fa-solid fa-house"></i>
-                <span>Home</span>
-            </div>
-            <div class="tab-item" data-tab="calendar" id="tabCalendar">
-                <i class="fa-solid fa-calendar"></i>
-                <span>Calendar</span>
-            </div>
-            <div class="tab-item" data-tab="insights" id="tabInsights">
-                <i class="fa-solid fa-chart-line"></i>
-                <span>Insights</span>
-            </div>
-            <div class="tab-item" data-tab="profile" id="tabProfile">
-                <i class="fa-solid fa-user"></i>
-                <span>You</span>
-            </div>
+        <div class="tab-bar" id="tabBar">
+            <!-- Tabs will be dynamically populated based on auth state -->
         </div>
     </div>
 
     <script>
         (function() {
-            const currentUser = { name: "Sarah", age: 28 };
+            // Mock user database
+            const users = [
+                { email: 'sarah@test.com', password: 'test123', name: 'Sarah', age: 28 },
+                { email: 'demo@herhealth.com', password: 'demo123', name: 'Demo User', age: 32 }
+            ];
+
+            // Current auth state
+            let isAuthenticated = localStorage.getItem('herhealth_auth') === 'true';
+            let currentUser = isAuthenticated ? 
+                JSON.parse(localStorage.getItem('herhealth_user')) || { name: 'Sarah', email: 'sarah@test.com', age: 28 } : 
+                null;
 
             // Symptom library with icons
             const SYMPTOMS = [
@@ -482,44 +639,48 @@
                 { id: 'fatigue', label: 'Fatigue', icon: 'fa-solid fa-bed' },
                 { id: 'brainFog', label: 'Brain Fog', icon: 'fa-solid fa-cloud' },
                 { id: 'bloating', label: 'Bloating', icon: 'fa-solid fa-circle' },
-                { id: 'breastTenderness', label: 'Tender Breasts', icon: 'fa-solid fa-heart' },
+                { id: 'breastTenderness', label: 'Breast', icon: 'fa-solid fa-heart' },
                 { id: 'backPain', label: 'Back Pain', icon: 'fa-solid fa-spine' },
-                { id: 'sex', label: 'Sex Frequency', icon: 'fa-solid fa-face-smile' }
+                { id: 'moodSwings', label: 'Mood', icon: 'fa-solid fa-face-smile' }
             ];
 
-            // Load entries from localStorage
-            let symptomEntries = JSON.parse(localStorage.getItem('herhealth_enhanced')) || {
-                "2026-02-18": {
-                    text: "Woke up with really bad cramps, couldn't focus.",
-                    symptoms: ['cramps', 'fatigue'],
-                    painLevel: 8,
-                    factors: { period: "heavy", birthControl: "pill", stress: 4, sick: false }
-                },
-                "2026-02-19": {
-                    text: "Cramps better but headache started.",
-                    symptoms: ['cramps', 'headache'],
-                    painLevel: 5,
-                    factors: { period: "medium", birthControl: "pill", stress: 3, sick: false }
-                },
-                "2026-02-20": {
-                    text: "Mild headache, feeling tired.",
-                    symptoms: ['headache', 'fatigue'],
-                    painLevel: 3,
-                    factors: { period: "light", birthControl: "pill", stress: 2, sick: false }
-                },
-                "2026-02-14": {
-                    text: "Great day! No symptoms.",
-                    symptoms: [],
-                    painLevel: 1,
-                    factors: { period: false, birthControl: "pill", stress: 1, sick: false }
-                },
-                "2026-02-21": {
-                    text: "Sore throat and feverish.",
-                    symptoms: ['fatigue'],
-                    painLevel: 6,
-                    factors: { period: false, birthControl: "pill", stress: 3, sick: "cold" }
-                }
-            };
+            // Load entries from localStorage (user-specific)
+            let symptomEntries = {};
+            if (isAuthenticated && currentUser) {
+                const userData = localStorage.getItem(`herhealth_data_${currentUser.email}`);
+                symptomEntries = userData ? JSON.parse(userData) : {
+                    "2026-02-18": {
+                        text: "Woke up with really bad cramps, couldn't focus.",
+                        symptoms: ['cramps', 'fatigue'],
+                        painLevel: 8,
+                        factors: { period: "heavy", birthControl: "pill", stress: 4, sick: false }
+                    },
+                    "2026-02-19": {
+                        text: "Cramps better but headache started.",
+                        symptoms: ['cramps', 'headache'],
+                        painLevel: 5,
+                        factors: { period: "medium", birthControl: "pill", stress: 3, sick: false }
+                    },
+                    "2026-02-20": {
+                        text: "Mild headache, feeling tired.",
+                        symptoms: ['headache', 'fatigue'],
+                        painLevel: 3,
+                        factors: { period: "light", birthControl: "pill", stress: 2, sick: false }
+                    },
+                    "2026-02-14": {
+                        text: "Great day! No symptoms.",
+                        symptoms: [],
+                        painLevel: 1,
+                        factors: { period: false, birthControl: "pill", stress: 1, sick: false }
+                    },
+                    "2026-02-21": {
+                        text: "Sore throat and feverish.",
+                        symptoms: ['fatigue'],
+                        painLevel: 6,
+                        factors: { period: false, birthControl: "pill", stress: 3, sick: "cold" }
+                    }
+                };
+            }
 
             function getTodayDate() {
                 const d = new Date();
@@ -536,8 +697,9 @@
                 stress: 3
             };
 
-            let authMode = 'login';
-            // Helper to get severity class based on pain level
+            // Auth state
+            let authMode = 'login'; // 'login' or 'signup'
+
             function getSeverityClass(painLevel) {
                 if (!painLevel && painLevel !== 0) return 'severity-0';
                 const level = Math.min(10, Math.max(0, Math.floor(painLevel)));
@@ -618,8 +780,7 @@
                 } else {
                     selectedSymptoms = [];
                     painLevel = 3;
-                    currentFactors = { 
-                        period: false, periodFlow: "medium", birthControl: false, birthControlType: "pill", sick: false, sickType: "cold", stress: 3 };
+                    currentFactors = { period: false, periodFlow: "medium", birthControl: false, birthControlType: "pill", sick: false, sickType: "cold", stress: 3 };
                 }
 
                 const symptomChips = SYMPTOMS.map(s => `
@@ -631,7 +792,7 @@
 
                 return `
                     <div style="margin-bottom: 8px;">
-                        <div class="greeting">🌸 Hello, ${currentUser.name}</div>
+                        <div class="greeting">🌸 Hello, ${currentUser?.name || 'Sarah'}</div>
                         <div class="sub-greeting"><i class="fa-regular fa-calendar-check"></i> Today's check-in • ${today}</div>
                     </div>
 
@@ -686,8 +847,6 @@
                                     <option value="pill" ${currentFactors.birthControlType==='pill'?'selected':''}>Pill</option>
                                     <option value="iud" ${currentFactors.birthControlType==='iud'?'selected':''}>IUD</option>
                                     <option value="implant" ${currentFactors.birthControlType==='implant'?'selected':''}>Implant</option>
-                                    <option value="shots" ${currentFactors.birthControlType==='shots'?'selected':''}>Shots</option>
-                                    <option value="other" ${currentFactors.birthControlType==='other'?'selected':''}>Other</option>
                                 </select>
                             ` : ''}
                         </div>
@@ -702,7 +861,6 @@
                                     <option value="cold" ${currentFactors.sickType==='cold'?'selected':''}>Cold</option>
                                     <option value="flu" ${currentFactors.sickType==='flu'?'selected':''}>Flu</option>
                                     <option value="allergies" ${currentFactors.sickType==='allergies'?'selected':''}>Allergies</option>
-                                    <option value="other" ${currentFactors.sickType==='other'?'selected':''}>Other</option>
                                 </select>
                             ` : ''}
                         </div>
@@ -792,7 +950,7 @@
                 // Prepare data for charts
                 const last14Days = [];
                 for (let i = 14; i >= 0; i--) {
-                    const d = new Date(2026, 1, 21 - i); // Feb 21 minus i days
+                    const d = new Date(2026, 1, 21 - i);
                     const dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
                     const entry = symptomEntries[dateStr];
                     last14Days.push({
@@ -823,6 +981,8 @@
                 const periodEntries = entries.filter(e => e.factors?.period);
                 const avgPainDuringPeriod = periodEntries.length ? 
                     Math.round(periodEntries.reduce((sum, e) => sum + (e.painLevel || 0), 0) / periodEntries.length) : 0;
+                const avgPainOverall = entries.length ? 
+                    Math.round(entries.reduce((sum, e) => sum + (e.painLevel || 0), 0) / entries.length) : 0;
 
                 return `
                     <div style="margin-top: 8px;">
@@ -848,7 +1008,7 @@
                             <div class="insight-card" style="padding: 16px;">
                                 <div style="color:#ffb0f0; font-size: 13px;">Avg Pain (Period)</div>
                                 <div style="font-size: 24px; font-weight: 600; color:white;">${avgPainDuringPeriod}/10</div>
-                                <div style="color:#b090b0;">vs ${Math.round(entries.reduce((s,e)=>s+(e.painLevel||0),0)/entries.length) || 0}/10 overall</div>
+                                <div style="color:#b090b0;">vs ${avgPainOverall}/10 overall</div>
                             </div>
                         </div>
 
@@ -907,8 +1067,8 @@
                         <div style="background: #8a4a80; width: 100px; height: 100px; border-radius: 50%; margin: 10px auto; display: flex; align-items: center; justify-content: center; font-size: 48px; border: 3px solid #ffb0f0;">
                             👩
                         </div>
-                        <h3 style="color:#ffe0ff;">${currentUser.name}, ${currentUser.age}</h3>
-                        <p style="color:#d0b0d0;">Member since Feb 2026 • ${totalEntries} entries</p>
+                        <h3 style="color:#ffe0ff;">${currentUser?.name || 'Sarah'}, ${currentUser?.age || 28}</h3>
+                        <p style="color:#d0b0d0;">${currentUser?.email} • ${totalEntries} entries</p>
                         
                         <div style="background: #2a1d28; border-radius: 30px; padding: 24px; margin-top: 30px; border:1px solid #ffb0e020;">
                             <div style="display: flex; justify-content: space-between; margin: 10px 0; color:#ffd0f0;">
@@ -943,14 +1103,69 @@
                             </div>
                         </div>
 
-                        <p class="footer-note">🔐 Your data is private and stored locally</p>
+                        <button class="logout-button" id="logoutBtn">
+                            <i class="fa-solid fa-sign-out-alt"></i> Log Out
+                        </button>
+
+                        <p class="footer-note">🔐 Your data is private and encrypted</p>
                     </div>
                 `;
+            }
+
+            function renderTabs() {
+                const tabBar = document.getElementById('tabBar');
+                if (!tabBar) return;
+
+                if (!isAuthenticated) {
+                    tabBar.innerHTML = `
+                        <div class="tab-item active" data-tab="auth">
+                            <i class="fa-solid fa-lock"></i>
+                            <span>Sign In</span>
+                        </div>
+                    `;
+                } else {
+                    tabBar.innerHTML = `
+                        <div class="tab-item ${activeTab === 'home' ? 'active' : ''}" data-tab="home">
+                            <i class="fa-solid fa-house"></i>
+                            <span>Home</span>
+                        </div>
+                        <div class="tab-item ${activeTab === 'calendar' ? 'active' : ''}" data-tab="calendar">
+                            <i class="fa-solid fa-calendar"></i>
+                            <span>Calendar</span>
+                        </div>
+                        <div class="tab-item ${activeTab === 'insights' ? 'active' : ''}" data-tab="insights">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <span>Insights</span>
+                        </div>
+                        <div class="tab-item ${activeTab === 'profile' ? 'active' : ''}" data-tab="profile">
+                            <i class="fa-solid fa-user"></i>
+                            <span>You</span>
+                        </div>
+                    `;
+                }
+
+                // Re-attach tab event listeners
+                document.querySelectorAll('.tab-item').forEach(tab => {
+                    tab.addEventListener('click', (e) => {
+                        document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+                        activeTab = tab.dataset.tab;
+                        updateScreen();
+                    });
+                });
             }
 
             function updateScreen() {
                 const contentDiv = document.getElementById('screenContent');
                 if (!contentDiv) return;
+
+                renderTabs();
+
+                if (!isAuthenticated) {
+                    contentDiv.innerHTML = renderAuth();
+                    attachAuthEvents();
+                    return;
+                }
                 
                 switch (activeTab) {
                     case 'home': 
@@ -967,8 +1182,99 @@
                         break;
                     case 'profile': 
                         contentDiv.innerHTML = renderProfile(); 
+                        attachProfileEvents();
                         break;
                 }
+            }
+
+            function attachAuthEvents() {
+                // Tab switching
+                document.getElementById('loginTab')?.addEventListener('click', () => {
+                    authMode = 'login';
+                    updateScreen();
+                });
+
+                document.getElementById('signupTab')?.addEventListener('click', () => {
+                    authMode = 'signup';
+                    updateScreen();
+                });
+
+                // Auth submit
+                document.getElementById('authSubmitBtn')?.addEventListener('click', () => {
+                    const email = document.getElementById('authEmail')?.value;
+                    const password = document.getElementById('authPassword')?.value;
+
+                    if (authMode === 'login') {
+                        // Check credentials
+                        const user = users.find(u => u.email === email && u.password === password);
+                        if (user) {
+                            isAuthenticated = true;
+                            currentUser = { name: user.name, email: user.email, age: user.age };
+                            localStorage.setItem('herhealth_auth', 'true');
+                            localStorage.setItem('herhealth_user', JSON.stringify(currentUser));
+                            
+                            // Load user's data
+                            const userData = localStorage.getItem(`herhealth_data_${currentUser.email}`);
+                            symptomEntries = userData ? JSON.parse(userData) : symptomEntries;
+                            
+                            activeTab = 'home';
+                            updateScreen();
+                        } else {
+                            alert('❌ Invalid email or password. Try: sarah@test.com / test123');
+                        }
+                    } else {
+                        // Sign up
+                        const name = document.getElementById('signupName')?.value;
+                        const age = document.getElementById('signupAge')?.value;
+                        
+                        if (email && password && name) {
+                            // Check if user exists
+                            if (users.some(u => u.email === email)) {
+                                alert('❌ User already exists. Please log in.');
+                                authMode = 'login';
+                                updateScreen();
+                                return;
+                            }
+                            
+                            // Create new user
+                            const newUser = { email, password, name, age: parseInt(age) };
+                            users.push(newUser);
+                            
+                            isAuthenticated = true;
+                            currentUser = { name, email, age: parseInt(age) };
+                            localStorage.setItem('herhealth_auth', 'true');
+                            localStorage.setItem('herhealth_user', JSON.stringify(currentUser));
+                            
+                            // Initialize empty data for new user
+                            symptomEntries = {};
+                            localStorage.setItem(`herhealth_data_${currentUser.email}`, JSON.stringify(symptomEntries));
+                            
+                            activeTab = 'home';
+                            updateScreen();
+                            
+                            alert('✅ Account created! Welcome to HerHealth.');
+                        } else {
+                            alert('❌ Please fill in all fields');
+                        }
+                    }
+                });
+            }
+
+            function attachProfileEvents() {
+                document.getElementById('logoutBtn')?.addEventListener('click', () => {
+                    // Save data before logout
+                    if (currentUser) {
+                        localStorage.setItem(`herhealth_data_${currentUser.email}`, JSON.stringify(symptomEntries));
+                    }
+                    
+                    isAuthenticated = false;
+                    currentUser = null;
+                    localStorage.removeItem('herhealth_auth');
+                    localStorage.removeItem('herhealth_user');
+                    
+                    activeTab = 'auth';
+                    updateScreen();
+                });
             }
 
             function attachHomeEvents() {
@@ -998,34 +1304,19 @@
                 });
 
                 // Period chip
-                const periodChip = document.getElementById('chipPeriod');
-                periodChip.addEventListener('click', () => {
+                document.getElementById('chipPeriod')?.addEventListener('click', () => {
                     currentFactors.period = !currentFactors.period;
-                    if (currentFactors.period) {
-                        periodChip.classList.add('active');
-                    } else {
-                        periodChip.classList.remove('active');
-                    }
+                    updateScreen();
                 });
 
-                const birthControlChip = document.getElementById('chipBirthControl');
-                birthControlChip.addEventListener('click', () => {
+                document.getElementById('chipBirthControl')?.addEventListener('click', () => {
                     currentFactors.birthControl = !currentFactors.birthControl;
-                    if (currentFactors.birthControl) {
-                        birthControlChip.classList.add('active');
-                    } else {
-                        birthControlChip.classList.remove('active');
-                    }
+                    updateScreen();
                 });
 
-                const sickChip = document.getElementById('chipSick');
-                sickChip.addEventListener('click', () => {
+                document.getElementById('chipSick')?.addEventListener('click', () => {
                     currentFactors.sick = !currentFactors.sick;
-                    if (currentFactors.sick) {
-                        sickChip.classList.add('active');
-                    } else {
-                        sickChip.classList.remove('active');
-                    }
+                    updateScreen();
                 });
 
                 // Selects and sliders
@@ -1065,7 +1356,11 @@
                         factors: savedFactors
                     };
 
-                    localStorage.setItem('herhealth_enhanced', JSON.stringify(symptomEntries));
+                    // Save to user-specific storage
+                    if (currentUser) {
+                        localStorage.setItem(`herhealth_data_${currentUser.email}`, JSON.stringify(symptomEntries));
+                    }
+
                     alert('✅ Entry saved! Check Insights for AI analysis.');
                     
                     // Switch to insights tab to show the new data
@@ -1165,20 +1460,12 @@
                 });
             }
 
-            // Tab switching
-            document.querySelectorAll('.tab-item').forEach(tab => {
-                tab.addEventListener('click', (e) => {
-                    document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    activeTab = tab.dataset.tab;
-                    updateScreen();
-                });
-            });
-
-            // Initial render
+            // Initialize
             updateScreen();
         })();
     </script>
-    <div style="position: fixed; bottom: 8px; left:0; right:0; text-align:center; font-size:11px; color:#b090b0;">✨ HerHealth Intelligence • Enhanced with structured symptoms & severity tracking</div>
+    <div style="position: fixed; bottom: 8px; left:0; right:0; text-align:center; font-size:11px; color:#b090b0;">
+        ✨ HerHealth Intelligence • ${isAuthenticated ? 'Authenticated' : 'Please sign in'}
+    </div>
 </body>
 </html>
