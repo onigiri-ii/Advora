@@ -1,6 +1,17 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, session
+from dotenv import load_dotenv
+import os
+from routes.auth import auth_bp
+from routes.entries import entries_bp
+
+load_dotenv()
 
 app = Flask(__name__)
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-secret-key")
+
+# Register blueprints
+app.register_blueprint(auth_bp)
+app.register_blueprint(entries_bp)
 
 @app.route("/")
 def home():

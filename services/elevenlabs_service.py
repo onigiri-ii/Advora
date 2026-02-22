@@ -1,44 +1,43 @@
-# example.py
-import os
-from dotenv import load_dotenv
-from io import BytesIO
 from flask import Flask, request, jsonify
 from elevenlabs.client import ElevenLabs
+from supabase import create_client
+import os
+from dotenv import load_dotenv
 
 load_dotenv()
 
 app = Flask(__name__)
 
+<<<<<<< HEAD
 #Elevenlabs set up
 eleven = ElevenLabs(api_key=os.getenv("sk_cddc283309b650b70a555f5e0438ee58d01be2c2f1d0de96"))
+=======
+# ElevenLabs setup
+eleven = ElevenLabs(api_key=os.getenv("ELEVENLABS_API_KEY"))
+>>>>>>> e5870d76da0159c006488a79e93bb7584f4bbb8c
 
-#Supabase setup
-'''audio_url = (
-    "https://storage.googleapis.com/eleven-public-cdn/audio/marketing/nicole.mp3"
-)
-response = request.get(audio_url)
-audio_data = BytesIO(response.content)'''
+# Supabase setup
 SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv()
+SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 @app.route("/transcribe", methods=["POST"])
-
 def transcribe():
     audio_file = request.files["audio"]
-    response = eleven.speech_to_text.convert(file = audio_file)
+
+    # Send audio to ElevenLabs
+    response = eleven.speech_to_text.convert(
+        file=audio_file
+    )
 
     transcript = response.text
 
-    #Inserting transcript into Supabase
+    # Insert transcript into Supabase
+    supabase.table("symptom_entries").insert({
+        "text": transcript
+    }).execute()
 
-    supabase.table("text_entries".insert)
-transcription = elevenlabs.speech_to_text.convert(
-    file=audio_data,
-    model_id="scribe_v2", # Model to use
-    tag_audio_events=True, # Tag audio events like laughter, applause, etc.
-    language_code="eng", # Language of the audio file. If set to None, the model will detect the language automatically.
-    diarize=True, # Whether to annotate who is speaking
-)
+    return jsonify({"transcript": transcript})
 
-print(transcription.text)
+if __name__ == "__main__":
+    app.run(debug=True)
