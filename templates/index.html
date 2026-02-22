@@ -639,11 +639,91 @@
 
     <script>
 (function() {
-  // ===== Mock user database =====
+    // ===== Mock user database =====
   const users = [
     { email: 'sarah@test.com', password: 'test123', name: 'Sarah', age: 28 },
     { email: 'demo@herhealth.com', password: 'demo123', name: 'Demo User', age: 32 }
   ];
+
+  // ===== NEW: API functions to talk to Flask backend =====
+  async function apiGet(endpoint) {
+      try {
+          const response = await fetch(endpoint);
+          return await response.json();
+      } catch (error) {
+          console.error('API GET error:', error);
+          return null;
+      }
+  }
+
+  async function apiPost(endpoint, data) {
+      try {
+          const response = await fetch(endpoint, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(data)
+          });
+          return await response.json();
+      } catch (error) {
+          console.error('API POST error:', error);
+          return null;
+      }
+  }
+
+  // Load entries from Supabase when user logs in
+  async function loadEntriesFromSupabase(email) {
+      try {
+          const username = email.split('@')[0]; // Convert email to username
+          const data = await apiGet(`/api/entries?username=${username}`);
+          
+          if (data && data.length > 0) {
+              const dbEntries = {};
+              data.forEach(entry => {
+                  dbEntries[entry.entry_date] = {
+                      text: entry.raw_text || '',
+                      symptoms: entry.symptoms || [],
+                      painLevel: entry.pain_level,
+                      factors: {
+                          period: entry.period_flow || false,
+                          periodFlow: entry.period_flow,
+                          birthControl: entry.birth_control_type || false,
+                          birthControlType: entry.birth_control_type,
+                          sick: entry.sick_type || false,
+                          sickType: entry.sick_type,
+                          stress: entry.stress_level || 3
+                      }
+                  };
+              });
+              
+              // Merge with existing entries (Supabase takes priority)
+              symptomEntries = { ...symptomEntries, ...dbEntries };
+              
+              // Save to localStorage as backup
+              localStorage.setItem(`herhealth_data_${email}`, JSON.stringify(symptomEntries));
+              
+              console.log('Loaded entries from Supabase');
+          }
+      } catch (error) {
+          console.error('Failed to load from Supabase:', error);
+      }
+  }
+
+  // Save entry to Supabase
+  async function saveToSupabase(entryData, email) {
+      try {
+          const username = email.split('@')[0]; // Convert email to username
+          const dataToSend = {
+              ...entryData,
+              username: username
+          };
+          
+          const result = await apiPost('/api/entries', dataToSend);
+          console.log('Saved to Supabase:', result);
+          return result;
+      } catch (error) {
+          console.error('Failed to save to Supabase:', error);
+      }
+  }
 
   // ===== Auth state =====
   let isAuthenticated = localStorage.getItem('herhealth_auth') === 'true';
@@ -767,18 +847,38 @@
       if (authMode === 'login') {
         const user = users.find(u => u.email.toLowerCase() === email && u.password === password);
         if (!user) {
-          alert('❌ Invalid email or password. Try: sarah@test.com / test123');
+          alert('Invalid email or password. Try: sarah@test.com / test123');
           return;
         }
 
+        //isAuthenticated = true;
+        //currentUser = { name: user.name, email: user.email, age: user.age };
+        //localStorage.setItem('herhealth_auth', 'true');
+        //localStorage.setItem('herhealth_user', JSON.stringify(currentUser)); -->
+
+        // load user-specific entries
+        //const userData = localStorage.getItem(`herhealth_data_${currentUser.email}`);
+        //symptomEntries = userData ? JSON.parse(userData) : {};
         isAuthenticated = true;
         currentUser = { name: user.name, email: user.email, age: user.age };
         localStorage.setItem('herhealth_auth', 'true');
         localStorage.setItem('herhealth_user', JSON.stringify(currentUser));
 
-        // load user-specific entries
+        // load user-specific entries from localStorage first (for speed)
         const userData = localStorage.getItem(`herhealth_data_${currentUser.email}`);
         symptomEntries = userData ? JSON.parse(userData) : {};
+        
+        // THEN load from Supabase (will merge with localStorage)
+        loadEntriesFromSupabase(currentUser.email).then(() => {
+            // After loading from Supabase, update the screen if needed
+            if (activeTab === 'home') {
+                updateScreen(); // Refresh to show Supabase data
+            }
+        });
+
+        activeTab = 'home';
+        updateScreen();
+        return;
 
         activeTab = 'home';
         updateScreen();
@@ -795,7 +895,7 @@
       }
 
       if (users.some(u => u.email.toLowerCase() === email)) {
-        alert('❌ User already exists. Please log in.');
+        alert('User already exists. Please log in.');
         authMode = 'login';
         updateScreen();
         return;
@@ -811,7 +911,6 @@
 
       symptomEntries = {};
       localStorage.setItem(`herhealth_data_${currentUser.email}`, JSON.stringify(symptomEntries));
-
       activeTab = 'home';
       updateScreen();
       alert('✅ Account created! Welcome to HerHealth.');
@@ -1128,17 +1227,31 @@
       if (sv) sv.innerText = currentFactors.stress + '/5';
     });
 
-    document.getElementById('saveEntryBtn')?.addEventListener('click', () => {
+        document.getElementById('saveEntryBtn')?.addEventListener('click', async () => {
       const text = document.getElementById('symptomTextInput')?.value || '';
       const today = getTodayDate();
 
       const savedFactors = {
         period: currentFactors.period ? currentFactors.periodFlow : false,
+        periodFlow: currentFactors.periodFlow,
         birthControl: currentFactors.birthControl ? currentFactors.birthControlType : false,
+        birthControlType: currentFactors.birthControlType,
         sick: currentFactors.sick ? currentFactors.sickType : false,
+        sickType: currentFactors.sickType,
         stress: currentFactors.stress
       };
 
+      const entryData = {
+        entry_date: today,
+        text: text,
+        symptoms: selectedSymptoms,
+        painLevel: painLevel,
+        stressLevel: currentFactors.stress,
+        factors: savedFactors,
+        mood: 'okay' // You can add mood selector later
+      };
+
+      // Save to localStorage (backup)
       symptomEntries[today] = {
         text,
         symptoms: selectedSymptoms,
@@ -1148,13 +1261,15 @@
 
       if (currentUser) {
         localStorage.setItem(`herhealth_data_${currentUser.email}`, JSON.stringify(symptomEntries));
+        
+        // Save to Supabase
+        await saveToSupabase(entryData, currentUser.email);
       }
 
-      alert('✅ Entry saved!');
+      alert('✅ Entry saved to database!');
       activeTab = 'insights';
       updateScreen();
     });
-  }
 
   function attachCalendarEvents() {
     document.querySelectorAll('.day-cell[data-date]').forEach(cell => {
@@ -1260,6 +1375,20 @@
 
   // init
   updateScreen();
+
+  // Test Supabase connection on load
+  (async function() {
+      try {
+          const result = await apiGet('/api/test');
+          if (result && result.status === 'connected') {
+              console.log('✅ Supabase connected!');
+          } else {
+              console.log('⚠️ Supabase connection issue');
+          }
+      } catch (e) {
+          console.log('⚠️ Backend not available - running in offline mode');
+      }
+  })();
 })();
 </script>
     <div style="position: fixed; bottom: 8px; left:0; right:0; text-align:center; font-size:11px; color:#b090b0;">✨ HerHealth Intelligence • Enhanced with structured symptoms & severity tracking</div>
