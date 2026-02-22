@@ -8,7 +8,7 @@ To run the envirnoment make a virtual envirnoment in pything version 3.11
 py -3.11 -m venv venvName
 ```
 
-Then, after activating the virtual envirnoment, downlod the requirements using
+Then, after activating the virtual envirnoment, download the requirements using
 ```
 pip install -r requirements.txt
 ```

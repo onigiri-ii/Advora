@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HerHealth · Symptom Intelligence</title>
+    <title>Advora · Symptom Intelligence</title>
     <!-- Fonts & Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Chart.js for visualizations -->
@@ -723,12 +723,12 @@
         (function () {
             const users = [
                 { email: 'sarah@test.com', password: 'test123', name: 'Sarah', age: 28 },
-                { email: 'demo@herhealth.com', password: 'demo123', name: 'Demo User', age: 32 }
+                { email: 'demo@advora.com', password: 'demo123', name: 'Demo User', age: 32 }
             ];
 
-            let isAuthenticated = localStorage.getItem('herhealth_auth') === 'true';
+            let isAuthenticated = localStorage.getItem('advora_auth') === 'true';
             let currentUser = isAuthenticated ?
-                JSON.parse(localStorage.getItem('herhealth_user')) || { name: 'Sarah', email: 'sarah@test.com', age: 28 } :
+                JSON.parse(localStorage.getItem('advora_user')) || { name: 'Sarah', email: 'sarah@test.com', age: 28 } :
                 null;
 
             // Symptom library with icons
@@ -748,7 +748,7 @@
             // Load entries from localStorage
             let symptomEntries = {};
             if (isAuthenticated && currentUser) {
-                const userData = localStorage.getItem(`herhealth_data_${currentUser.email}`);
+                const userData = localStorage.getItem(`advora_data_${currentUser.email}`);
                 symptomEntries = userData ? JSON.parse(userData) : {
                     "2026-02-18": {
                         text: "Woke up with really bad cramps, couldn't focus.",
@@ -813,7 +813,7 @@
                 return `
                     <div class="auth-container">
                         <div class="auth-header">
-                            <h1>🌸 HerHealth</h1>
+                            <h1>🌸 Advora</h1>
                             <p>Your personal health advocate</p>
                         </div>
 
@@ -857,7 +857,7 @@
                         <div class="test-credentials">
                             <p><i class="fa-regular fa-flask"></i> Test Accounts</p>
                             <small>📧 sarah@test.com / test123</small>
-                            <small>📧 demo@herhealth.com / demo123</small>
+                            <small>📧 demo@advora.com / demo123</small>
                             <small style="margin-top:8px;">👆 Use these to log in instantly</small>
                         </div>
                     </div>
@@ -1145,8 +1145,8 @@
                                 </div>
                                 <p style="color:#e0c0e0; margin-top: 10px;">
                                     ${avgPainDuringPeriod > 7 ?
-                        '⚠️ Severe pain detected during period (avg 8/10). Consider discussing with doctor.' :
-                        '✅ No red flags detected. Pain levels within normal range.'}
+                        'Severe pain detected during period (avg 8/10). Consider discussing with doctor.' :
+                        'No red flags detected. Pain levels within normal range.'}
                                 </p>
                             </div>
 
@@ -1331,17 +1331,17 @@
                         if (user) {
                             isAuthenticated = true;
                             currentUser = { name: user.name, email: user.email, age: user.age };
-                            localStorage.setItem('herhealth_auth', 'true');
-                            localStorage.setItem('herhealth_user', JSON.stringify(currentUser));
+                            localStorage.setItem('advora_auth', 'true');
+                            localStorage.setItem('advora_user', JSON.stringify(currentUser));
 
                             // Load user's data
-                            const userData = localStorage.getItem(`herhealth_data_${currentUser.email}`);
+                            const userData = localStorage.getItem(`advora_data_${currentUser.email}`);
                             symptomEntries = userData ? JSON.parse(userData) : symptomEntries;
 
                             activeTab = 'home';
                             updateScreen();
                         } else {
-                            alert('❌ Invalid email or password. Try: sarah@test.com / test123');
+                            alert('Invalid email or password.');
                         }
                     } else {
                         // Sign up
@@ -1351,7 +1351,7 @@
                         if (email && password && name) {
                             // Check if user exists
                             if (users.some(u => u.email === email)) {
-                                alert('❌ User already exists. Please log in.');
+                                alert('User already exists. Please log in.');
                                 authMode = 'login';
                                 updateScreen();
                                 return;
@@ -1363,19 +1363,19 @@
 
                             isAuthenticated = true;
                             currentUser = { name, email, age: parseInt(age) };
-                            localStorage.setItem('herhealth_auth', 'true');
-                            localStorage.setItem('herhealth_user', JSON.stringify(currentUser));
+                            localStorage.setItem('advora_auth', 'true');
+                            localStorage.setItem('advora_user', JSON.stringify(currentUser));
 
                             // Initialize empty data for new user
                             symptomEntries = {};
-                            localStorage.setItem(`herhealth_data_${currentUser.email}`, JSON.stringify(symptomEntries));
+                            localStorage.setItem(`advora_data_${currentUser.email}`, JSON.stringify(symptomEntries));
 
                             activeTab = 'home';
                             updateScreen();
 
-                            alert('✅ Account created! Welcome to HerHealth.');
+                            alert('Account created! Welcome to Advora.');
                         } else {
-                            alert('❌ Please fill in all fields');
+                            alert('Please fill in all fields');
                         }
                     }
                 });
@@ -1385,13 +1385,13 @@
                 document.getElementById('logoutBtn')?.addEventListener('click', () => {
                     // Save data before logout
                     if (currentUser) {
-                        localStorage.setItem(`herhealth_data_${currentUser.email}`, JSON.stringify(symptomEntries));
+                        localStorage.setItem(`advora_data_${currentUser.email}`, JSON.stringify(symptomEntries));
                     }
 
                     isAuthenticated = false;
                     currentUser = null;
-                    localStorage.removeItem('herhealth_auth');
-                    localStorage.removeItem('herhealth_user');
+                    localStorage.removeItem('advora_auth');
+                    localStorage.removeItem('advora_user');
 
                     activeTab = 'auth';
                     updateScreen();
@@ -1628,10 +1628,10 @@
                     };
 
                     if (currentUser) {
-                        localStorage.setItem(`herhealth_data_${currentUser.email}`, JSON.stringify(symptomEntries));
+                        localStorage.setItem(`advora_data_${currentUser.email}`, JSON.stringify(symptomEntries));
                     }
 
-                    alert('✅ Entry saved! Check Insights for AI analysis.');
+                    alert('Entry saved! Check Insights for AI analysis.');
 
                     // Switch to insights tab
                     document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
@@ -1726,7 +1726,7 @@
                 }
 
                 document.getElementById('mockDocBtn')?.addEventListener('click', () => {
-                    alert('📋 Health report generated! (Demo)');
+                    alert('Health report generated!');
                 });
             }
 
@@ -1744,7 +1744,7 @@
             updateScreen();
         })();
     </script>
-    <!--<div style="position: fixed; bottom: 8px; left:0; right:0; text-align:center; font-size:11px; color:#b090b0;">✨ HerHealth Intelligence • Enhanced with structured symptoms & severity tracking</div>-->
+    <!--<div style="position: fixed; bottom: 8px; left:0; right:0; text-align:center; font-size:11px; color:#b090b0;">✨ Advora • Enhanced with structured symptoms & severity tracking</div>-->
 </body>
 
 </html>
