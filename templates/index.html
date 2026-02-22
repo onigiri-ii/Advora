@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <style>
+        /* ALL YOUR EXISTING CSS - KEEP EXACTLY AS IS */
         * {
             margin: 0;
             padding: 0;
@@ -476,6 +477,11 @@
             transform: scale(1.01);
         }
 
+        .save-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         /* Calendar with severity gradients */
         .calendar-placeholder {
             background: #2a1d28;
@@ -686,6 +692,15 @@
         .flatpickr-day:hover {
             background: #8a4a80;
         }
+
+        .loading-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: #ffb0f0;
+            font-size: 24px;
+        }
     </style>
 </head>
 
@@ -697,96 +712,21 @@
                     class="fa-solid fa-battery-full"></i></span>
         </div>
 
-        <div class="screen-content" id="screenContent"></div>
-
-        <div class="tab-bar" id="tabBar">
-            <div class="tab-item active" data-tab="home" id="tabHome">
-                <i class="fa-solid fa-house"></i>
-                <span>Home</span>
-            </div>
-            <div class="tab-item" data-tab="calendar" id="tabCalendar">
-                <i class="fa-solid fa-calendar"></i>
-                <span>Calendar</span>
-            </div>
-            <div class="tab-item" data-tab="insights" id="tabInsights">
-                <i class="fa-solid fa-chart-line"></i>
-                <span>Insights</span>
-            </div>
-            <div class="tab-item" data-tab="profile" id="tabProfile">
-                <i class="fa-solid fa-user"></i>
-                <span>You</span>
+        <div class="screen-content" id="screenContent">
+            <div class="loading-spinner">
+                <i class="fa-solid fa-spinner fa-spin"></i> Loading...
             </div>
         </div>
+
+        <div class="tab-bar" id="tabBar"></div>
     </div>
 
     <script>
-        (function () {
-            const users = [
-                { email: 'sarah@test.com', password: 'test123', name: 'Sarah', age: 28 },
-                { email: 'demo@advora.com', password: 'demo123', name: 'Demo User', age: 32 }
-            ];
-
-            let isAuthenticated = localStorage.getItem('advora_auth') === 'true';
-            let currentUser = isAuthenticated ?
-                JSON.parse(localStorage.getItem('advora_user')) || { name: 'Sarah', email: 'sarah@test.com', age: 28 } :
-                null;
-
-            // Symptom library with icons
-            const SYMPTOMS = [
-                { id: 'headache', label: 'Headache', icon: 'fa-solid fa-brain' }, // Changed from head-side-brain
-                { id: 'cramps', label: 'Cramps', icon: 'fa-solid fa-bolt' },
-                { id: 'nausea', label: 'Nausea', icon: 'fa-solid fa-face-frown' },
-                { id: 'fatigue', label: 'Fatigue', icon: 'fa-solid fa-bed' },
-                { id: 'brainFog', label: 'Brain Fog', icon: 'fa-solid fa-cloud' },
-                { id: 'bloating', label: 'Bloating', icon: 'fa-solid fa-circle' },
-                { id: 'breastTenderness', label: 'Tenderness', icon: 'fa-solid fa-heart' },
-                { id: 'backPain', label: 'Back Pain', icon: 'fa-solid fa-ribbon' }, // Changed from spine
-                { id: 'sex', label: 'Sex', icon: 'fa-solid fa-face-smile' }
-            ];
-
-            // Load entries from localStorage
+        (function() {
+            // State variables - keeping ALL your existing state
+            let isAuthenticated = false;
+            let currentUser = null;
             let symptomEntries = {};
-            if (isAuthenticated && currentUser) {
-                const userData = localStorage.getItem(`advora_data_${currentUser.email}`);
-                symptomEntries = userData ? JSON.parse(userData) : {
-                    "2026-02-18": {
-                        text: "Woke up with really bad cramps, couldn't focus.",
-                        symptoms: ['cramps', 'fatigue'],
-                        painLevel: 8,
-                        factors: { period: "heavy", birthControl: "pill", stress: 4, sick: false }
-                    },
-                    "2026-02-19": {
-                        text: "Cramps better but headache started.",
-                        symptoms: ['cramps', 'headache'],
-                        painLevel: 5,
-                        factors: { period: "medium", birthControl: "pill", stress: 3, sick: false }
-                    },
-                    "2026-02-20": {
-                        text: "Mild headache, feeling tired.",
-                        symptoms: ['headache', 'fatigue'],
-                        painLevel: 3,
-                        factors: { period: "light", birthControl: "pill", stress: 2, sick: false }
-                    },
-                    "2026-02-14": {
-                        text: "Great day! No symptoms.",
-                        symptoms: [],
-                        painLevel: 1,
-                        factors: { period: false, birthControl: "pill", stress: 1, sick: false }
-                    },
-                    "2026-02-21": {
-                        text: "Sore throat and feverish.",
-                        symptoms: ['fatigue'],
-                        painLevel: 6,
-                        factors: { period: false, birthControl: "pill", stress: 3, sick: "cold" }
-                    }
-                };
-            }
-
-            function getTodayDate() {
-                const d = new Date();
-                return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-            }
-
             let activeTab = "home";
             let selectedSymptoms = [];
             let painLevel = 3;
@@ -796,18 +736,183 @@
                 sick: false, sickType: "cold",
                 stress: 3
             };
-
             let authMode = 'login';
-            let entryDate = getTodayDate();
+            let entryDate = null;
             let draftDate = null;
 
-            // Helper to get severity class based on pain level
+            // Symptom library - KEEPING EXACTLY as you had it
+            const SYMPTOMS = [
+                { id: 'headache', label: 'Headache', icon: 'fa-solid fa-brain' },
+                { id: 'cramps', label: 'Cramps', icon: 'fa-solid fa-bolt' },
+                { id: 'nausea', label: 'Nausea', icon: 'fa-solid fa-face-frown' },
+                { id: 'fatigue', label: 'Fatigue', icon: 'fa-solid fa-bed' },
+                { id: 'brainFog', label: 'Brain Fog', icon: 'fa-solid fa-cloud' },
+                { id: 'bloating', label: 'Bloating', icon: 'fa-solid fa-circle' },
+                { id: 'breastTenderness', label: 'Tenderness', icon: 'fa-solid fa-heart' },
+                { id: 'backPain', label: 'Back Pain', icon: 'fa-solid fa-ribbon' },
+                { id: 'sex', label: 'Sex', icon: 'fa-solid fa-face-smile' }
+            ];
+
+            // Helper functions - KEEPING your existing functions
+            function getTodayDate() {
+                const d = new Date();
+                return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+            }
+
             function getSeverityClass(painLevel) {
                 if (!painLevel && painLevel !== 0) return 'severity-0';
                 const level = Math.min(10, Math.max(0, Math.floor(painLevel)));
                 return `severity-${level}`;
             }
 
+            // ===== API Functions to connect to your Flask backend =====
+            
+            async function checkAuthStatus() {
+                try {
+                    const response = await fetch('/api/me');
+                    const data = await response.json();
+                    
+                    if (data.user) {
+                        isAuthenticated = true;
+                        currentUser = data.user;
+                        entryDate = getTodayDate();
+                        
+                        // Load entries after authentication
+                        await loadUserEntries();
+                    } else {
+                        isAuthenticated = false;
+                        currentUser = null;
+                    }
+                    
+                    updateScreen();
+                } catch (error) {
+                    console.error('Error checking auth:', error);
+                    isAuthenticated = false;
+                    currentUser = null;
+                    updateScreen();
+                }
+            }
+
+            async function loadUserEntries() {
+                if (!isAuthenticated || !currentUser) return {};
+                
+                try {
+                    const response = await fetch('/api/entries');
+                    if (response.ok) {
+                        const entries = await response.json();
+                        
+                        // Convert array to object keyed by date (EXACTLY your existing format)
+                        const entriesObj = {};
+                        entries.forEach(entry => {
+                            // Format symptoms array to match your existing structure
+                            const symptomsList = entry.symptoms ? entry.symptoms.map(s => 
+                                typeof s === 'object' ? s.symptom_key : s
+                            ) : [];
+                            
+                            entriesObj[entry.entry_date] = {
+                                text: entry.text || '',
+                                symptoms: symptomsList,
+                                painLevel: entry.pain_level || 3,
+                                factors: entry.factors ? {
+                                    period: entry.factors.period || false,
+                                    periodFlow: entry.factors.period_flow || 'medium',
+                                    birthControl: entry.factors.birth_control || false,
+                                    birthControlType: entry.factors.birth_control_type || 'pill',
+                                    sick: entry.factors.sick || false,
+                                    sickType: entry.factors.sick_type || 'cold',
+                                    stress: entry.factors.stress || 3
+                                } : {
+                                    period: false, periodFlow: 'medium',
+                                    birthControl: false, birthControlType: 'pill',
+                                    sick: false, sickType: 'cold',
+                                    stress: 3
+                                }
+                            };
+                        });
+                        
+                        symptomEntries = entriesObj;
+                        return entriesObj;
+                    } else {
+                        console.error('Failed to load entries');
+                        symptomEntries = {};
+                        return {};
+                    }
+                } catch (error) {
+                    console.error('Error loading entries:', error);
+                    symptomEntries = {};
+                    return {};
+                }
+            }
+
+            async function saveEntryToDB(entryData) {
+                try {
+                    const response = await fetch('/api/entries', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(entryData)
+                    });
+                    
+                    if (response.ok) {
+                        return await response.json();
+                    } else {
+                        const error = await response.text();
+                        throw new Error(error);
+                    }
+                } catch (error) {
+                    console.error('Error saving entry:', error);
+                    throw error;
+                }
+            }
+
+            async function login(email, password) {
+                try {
+                    const response = await fetch('/api/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        isAuthenticated = true;
+                        currentUser = data.user;
+                        entryDate = getTodayDate();
+                        await loadUserEntries();
+                        updateScreen();
+                        return { success: true };
+                    } else {
+                        alert(data.error || 'Invalid credentials');
+                        return { success: false, error: data.error };
+                    }
+                } catch (error) {
+                    console.error('Login error:', error);
+                    alert('Network error. Please try again.');
+                    return { success: false, error: 'Network error' };
+                }
+            }
+
+            async function signup(name, email, password, age) {
+                // For now, just use login since signup isn't implemented in backend
+                alert('Sign up not implemented yet. Please use test accounts.\n\nsarah@test.com / test123\ndemo@advora.com / demo123');
+                return { success: false };
+            }
+
+            async function logout() {
+                try {
+                    await fetch('/api/logout', { method: 'POST' });
+                } catch (error) {
+                    console.error('Logout error:', error);
+                }
+                
+                isAuthenticated = false;
+                currentUser = null;
+                symptomEntries = {};
+                updateScreen();
+            }
+
+            // ===== ALL YOUR EXISTING RENDER FUNCTIONS (KEEP THEM EXACTLY AS IS) =====
+            
             function renderAuth() {
                 return `
                     <div class="auth-container">
@@ -903,7 +1008,7 @@
 
                 return `
                     <div style="margin-bottom: 8px;">
-                        <div class="greeting">🌸 Hello, ${currentUser.name}</div>
+                        <div class="greeting">🌸 Hello, ${currentUser?.name || 'User'}</div>
                         <div class="sub-greeting"><i class="fa-regular fa-calendar-check"></i> Check-in • ${dateToEdit}</div>
                     </div>
                     <div style="margin: 10px 0 14px; display:flex; gap:10px; align-items:center;">
@@ -1186,8 +1291,8 @@
                 <div style="text-align: center; padding: 20px 0;">
                     <div style="background: #8a4a80; width: 100px; height: 100px; border-radius: 50%; margin: 10px auto; display: flex; align-items: center; justify-content: center; font-size: 48px; border: 3px solid #ffb0f0;">
     🐦
-</div>
-                    <h3 style="color:#ffe0ff;">${currentUser.name}, ${currentUser.age}</h3>
+    </div>
+                    <h3 style="color:#ffe0ff;">${currentUser?.name || 'User'}, ${currentUser?.age || '?'}</h3>
                     <p style="color:#d0b0d0;">Member since Feb 2026 • ${totalEntries} entries</p>
                     
                     <div style="background: #2a1d28; border-radius: 30px; padding: 24px; margin-top: 30px; border:1px solid #ffb0e020;">
@@ -1307,6 +1412,8 @@
                 }
             }
 
+            // ===== UPDATED EVENT ATTACHMENT FUNCTIONS =====
+            
             function attachAuthEvents() {
                 // Tab switching
                 document.getElementById('loginTab')?.addEventListener('click', () => {
@@ -1320,59 +1427,19 @@
                 });
 
                 // Auth submit
-                document.getElementById('authSubmitBtn')?.addEventListener('click', () => {
+                document.getElementById('authSubmitBtn')?.addEventListener('click', async () => {
                     const email = document.getElementById('authEmail')?.value;
                     const password = document.getElementById('authPassword')?.value;
 
                     if (authMode === 'login') {
-                        // Check credentials
-                        const user = users.find(u => u.email === email && u.password === password);
-                        if (user) {
-                            isAuthenticated = true;
-                            currentUser = { name: user.name, email: user.email, age: user.age };
-                            localStorage.setItem('advora_auth', 'true');
-                            localStorage.setItem('advora_user', JSON.stringify(currentUser));
-
-                            // Load user's data
-                            const userData = localStorage.getItem(`advora_data_${currentUser.email}`);
-                            symptomEntries = userData ? JSON.parse(userData) : symptomEntries;
-
-                            activeTab = 'home';
-                            updateScreen();
-                        } else {
-                            alert('Invalid email or password.');
-                        }
+                        await login(email, password);
                     } else {
                         // Sign up
                         const name = document.getElementById('signupName')?.value;
                         const age = document.getElementById('signupAge')?.value;
-
+                        
                         if (email && password && name) {
-                            // Check if user exists
-                            if (users.some(u => u.email === email)) {
-                                alert('User already exists. Please log in.');
-                                authMode = 'login';
-                                updateScreen();
-                                return;
-                            }
-
-                            // Create new user
-                            const newUser = { email, password, name, age: parseInt(age) };
-                            users.push(newUser);
-
-                            isAuthenticated = true;
-                            currentUser = { name, email, age: parseInt(age) };
-                            localStorage.setItem('advora_auth', 'true');
-                            localStorage.setItem('advora_user', JSON.stringify(currentUser));
-
-                            // Initialize empty data for new user
-                            symptomEntries = {};
-                            localStorage.setItem(`advora_data_${currentUser.email}`, JSON.stringify(symptomEntries));
-
-                            activeTab = 'home';
-                            updateScreen();
-
-                            alert('Account created! Welcome to Advora.');
+                            await signup(name, email, password, age);
                         } else {
                             alert('Please fill in all fields');
                         }
@@ -1381,168 +1448,157 @@
             }
 
             function attachProfileEvents() {
-                document.getElementById('logoutBtn')?.addEventListener('click', () => {
-                    // Save data before logout
-                    if (currentUser) {
-                        localStorage.setItem(`advora_data_${currentUser.email}`, JSON.stringify(symptomEntries));
-                    }
-
-                    isAuthenticated = false;
-                    currentUser = null;
-                    localStorage.removeItem('advora_auth');
-                    localStorage.removeItem('advora_user');
-
-                    activeTab = 'auth';
-                    updateScreen();
+                document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+                    await logout();
                 });
             }
 
             function attachHomeEvents() {
                 // Initialize Flatpickr for date selection
-                flatpickr("#entryDateInput", {
-                    dateFormat: "Y-m-d",
-                    defaultDate: entryDate,
-                    maxDate: "today",
-                    onChange: function (selectedDates, dateStr) {
-                        entryDate = dateStr;
-                        updateScreen();
-                    }
-                });
+                if (document.getElementById('entryDateInput')) {
+                    flatpickr("#entryDateInput", {
+                        dateFormat: "Y-m-d",
+                        defaultDate: entryDate,
+                        maxDate: "today",
+                        onChange: function (selectedDates, dateStr) {
+                            entryDate = dateStr;
+                            updateScreen();
+                        }
+                    });
+                }
 
                 // Voice recording variables
                 let mediaRecorder;
                 let audioChunks = [];
                 let isRecording = false;
 
-                // Enhanced voice memo button with real recording
+                // Voice memo button
                 const voiceBtn = document.getElementById('simulateVoiceBtn');
+                if (voiceBtn) {
+                    voiceBtn.addEventListener('click', async () => {
+                        if (!isRecording) {
+                            // Start recording
+                            try {
+                                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                                mediaRecorder = new MediaRecorder(stream);
+                                audioChunks = [];
 
-                voiceBtn.addEventListener('click', async () => {
-                    if (!isRecording) {
-                        // Start recording
-                        try {
-                            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                            mediaRecorder = new MediaRecorder(stream);
-                            audioChunks = [];
-
-                            mediaRecorder.ondataavailable = event => {
-                                audioChunks.push(event.data);
-                            };
-
-                            mediaRecorder.onstop = async () => {
-                                // Update UI to show processing
-                                voiceBtn.innerHTML = `
-                        <span><i class="fa-solid fa-spinner fa-spin"></i> <span>Transcribing...</span></span>
-                        <i class="fa-solid fa-arrow-right"></i>
-                    `;
-
-                                // Convert audio to base64
-                                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-                                const reader = new FileReader();
-
-                                reader.onloadend = async () => {
-                                    const base64Audio = reader.result.split(',')[1];
-
-                                    try {
-                                        // Send to your backend
-                                        const response = await fetch('/api/transcribe', {
-                                            method: 'POST',
-                                            headers: { 'Content-Type': 'application/json' },
-                                            body: JSON.stringify({ audio: base64Audio })
-                                        });
-
-                                        if (response.ok) {
-                                            const data = await response.json();
-                                            document.getElementById('symptomTextInput').value = data.transcript;
-
-                                            // Reset button
-                                            voiceBtn.innerHTML = `
-                                    <span><i class="fa-solid fa-microphone"></i> <span>Record voice memo</span></span>
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                `;
-                                            voiceBtn.style.background = '#3a2340';
-
-                                            // Optional: Show success indicator
-                                            voiceBtn.style.borderColor = '#90ff90';
-                                            setTimeout(() => {
-                                                voiceBtn.style.borderColor = '#ffa0e060';
-                                            }, 2000);
-                                        } else {
-                                            const error = await response.json();
-                                            throw new Error(error.error || 'Transcription failed');
-                                        }
-                                    } catch (error) {
-                                        console.error('Transcription error:', error);
-
-                                        // Show error state
-                                        voiceBtn.innerHTML = `
-                                <span><i class="fa-solid fa-exclamation-triangle" style="color:#ff8080;"></i> <span>Try again</span></span>
-                                <i class="fa-solid fa-arrow-right"></i>
-                            `;
-                                        voiceBtn.style.background = '#4a2a50';
-                                        voiceBtn.style.borderColor = '#ff8080';
-
-                                        // Reset after 3 seconds
-                                        setTimeout(() => {
-                                            voiceBtn.innerHTML = `
-                                    <span><i class="fa-solid fa-microphone"></i> <span>Record voice memo</span></span>
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                `;
-                                            voiceBtn.style.background = '#3a2340';
-                                            voiceBtn.style.borderColor = '#ffa0e060';
-                                        }, 3000);
-                                    }
-
-                                    // Stop all audio tracks
-                                    stream.getTracks().forEach(track => track.stop());
+                                mediaRecorder.ondataavailable = event => {
+                                    audioChunks.push(event.data);
                                 };
 
-                                reader.readAsDataURL(audioBlob);
-                            };
+                                mediaRecorder.onstop = async () => {
+                                    // Update UI to show processing
+                                    voiceBtn.innerHTML = `
+                            <span><i class="fa-solid fa-spinner fa-spin"></i> <span>Transcribing...</span></span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        `;
 
-                            // Start recording
-                            mediaRecorder.start();
-                            isRecording = true;
+                                    // Convert audio to base64
+                                    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                                    const reader = new FileReader();
 
-                            // Update UI for recording state
-                            voiceBtn.innerHTML = `
-                    <span><i class="fa-solid fa-stop" style="color:#ff8080;"></i> <span>Recording... Click to stop</span></span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                `;
-                            voiceBtn.style.background = '#ff80d0';
-                            voiceBtn.style.borderColor = '#ff80d0';
+                                    reader.onloadend = async () => {
+                                        const base64Audio = reader.result.split(',')[1];
 
-                            // Auto-stop after 15 seconds max
-                            setTimeout(() => {
-                                if (isRecording && mediaRecorder.state === 'recording') {
-                                    mediaRecorder.stop();
-                                    isRecording = false;
+                                        try {
+                                            // Send to your backend
+                                            const response = await fetch('/api/transcribe', {
+                                                method: 'POST',
+                                                headers: { 'Content-Type': 'application/json' },
+                                                body: JSON.stringify({ audio: base64Audio })
+                                            });
+
+                                            if (response.ok) {
+                                                const data = await response.json();
+                                                document.getElementById('symptomTextInput').value = data.transcript;
+
+                                                // Reset button
+                                                voiceBtn.innerHTML = `
+                                        <span><i class="fa-solid fa-microphone"></i> <span>Record voice memo</span></span>
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    `;
+                                                voiceBtn.style.background = '#3a2340';
+
+                                                // Optional: Show success indicator
+                                                voiceBtn.style.borderColor = '#90ff90';
+                                                setTimeout(() => {
+                                                    voiceBtn.style.borderColor = '#ffa0e060';
+                                                }, 2000);
+                                            } else {
+                                                const error = await response.json();
+                                                throw new Error(error.error || 'Transcription failed');
+                                            }
+                                        } catch (error) {
+                                            console.error('Transcription error:', error);
+
+                                            // Show error state
+                                            voiceBtn.innerHTML = `
+                                    <span><i class="fa-solid fa-exclamation-triangle" style="color:#ff8080;"></i> <span>Try again</span></span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                `;
+                                            voiceBtn.style.background = '#4a2a50';
+                                            voiceBtn.style.borderColor = '#ff8080';
+
+                                            // Reset after 3 seconds
+                                            setTimeout(() => {
+                                                voiceBtn.innerHTML = `
+                                        <span><i class="fa-solid fa-microphone"></i> <span>Record voice memo</span></span>
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    `;
+                                                voiceBtn.style.background = '#3a2340';
+                                                voiceBtn.style.borderColor = '#ffa0e060';
+                                            }, 3000);
+                                        }
+
+                                        // Stop all audio tracks
+                                        stream.getTracks().forEach(track => track.stop());
+                                    };
+
+                                    reader.readAsDataURL(audioBlob);
+                                };
+
+                                // Start recording
+                                mediaRecorder.start();
+                                isRecording = true;
+
+                                // Update UI for recording state
+                                voiceBtn.innerHTML = `
+                        <span><i class="fa-solid fa-stop" style="color:#ff8080;"></i> <span>Recording... Click to stop</span></span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    `;
+                                voiceBtn.style.background = '#ff80d0';
+                                voiceBtn.style.borderColor = '#ff80d0';
+
+                                // Auto-stop after 15 seconds max
+                                setTimeout(() => {
+                                    if (isRecording && mediaRecorder && mediaRecorder.state === 'recording') {
+                                        mediaRecorder.stop();
+                                        isRecording = false;
+                                    }
+                                }, 15000);
+
+                            } catch (error) {
+                                console.error('Error accessing microphone:', error);
+
+                                // Handle microphone permission errors
+                                if (error.name === 'NotAllowedError') {
+                                    alert('Please allow microphone access to use voice input.');
+                                } else if (error.name === 'NotFoundError') {
+                                    alert('No microphone found. Please connect a microphone.');
+                                } else {
+                                    alert('Could not access microphone. Please check permissions.');
                                 }
-                            }, 15000);
-
-                        } catch (error) {
-                            console.error('Error accessing microphone:', error);
-
-                            // Handle microphone permission errors
-                            if (error.name === 'NotAllowedError') {
-                                alert('Please allow microphone access to use voice input.');
-                            } else if (error.name === 'NotFoundError') {
-                                alert('No microphone found. Please connect a microphone.');
-                            } else {
-                                alert('Could not access microphone. Please check permissions.');
+                            }
+                        } else {
+                            // Stop recording
+                            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                                mediaRecorder.stop();
+                                isRecording = false;
                             }
                         }
-                    } else {
-                        // Stop recording
-                        if (mediaRecorder && mediaRecorder.state === 'recording') {
-                            mediaRecorder.stop();
-                            isRecording = false;
-                        }
-                    }
-                });
-
-                // Rest of your existing event handlers...
-                // [Keep all your existing chip handlers, sliders, etc.]
+                    });
+                }
 
                 // Symptom chips
                 document.querySelectorAll('.symptom-chip').forEach(chip => {
@@ -1607,36 +1663,71 @@
                     document.getElementById('stressValue').innerText = currentFactors.stress + '/5';
                 });
 
-                // Save button
-                document.getElementById('saveEntryBtn')?.addEventListener('click', () => {
+                // Save button - UPDATED to use database
+                document.getElementById('saveEntryBtn')?.addEventListener('click', async () => {
                     const text = document.getElementById('symptomTextInput').value;
                     const dateToSave = entryDate || getTodayDate();
 
                     const savedFactors = {
-                        period: currentFactors.period ? currentFactors.periodFlow : false,
-                        birthControl: currentFactors.birthControl ? currentFactors.birthControlType : false,
-                        sick: currentFactors.sick ? currentFactors.sickType : false,
+                        period: currentFactors.period,
+                        period_flow: currentFactors.period ? currentFactors.periodFlow : null,
+                        birth_control: currentFactors.birthControl,
+                        birth_control_type: currentFactors.birthControl ? currentFactors.birthControlType : null,
+                        sick: currentFactors.sick,
+                        sick_type: currentFactors.sick ? currentFactors.sickType : null,
                         stress: currentFactors.stress
                     };
 
-                    symptomEntries[dateToSave] = {
+                    const entryData = {
+                        entry_date: dateToSave,
                         text: text,
+                        pain_level: painLevel,
                         symptoms: selectedSymptoms,
-                        painLevel: painLevel,
                         factors: savedFactors
                     };
 
-                    if (currentUser) {
-                        localStorage.setItem(`advora_data_${currentUser.email}`, JSON.stringify(symptomEntries));
+                    try {
+                        // Show saving indicator
+                        const saveBtn = document.getElementById('saveEntryBtn');
+                        const originalText = saveBtn.innerHTML;
+                        saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+                        saveBtn.disabled = true;
+
+                        const result = await saveEntryToDB(entryData);
+                        
+                        if (result.success) {
+                            // Update local cache
+                            symptomEntries[dateToSave] = {
+                                text: text,
+                                symptoms: selectedSymptoms,
+                                painLevel: painLevel,
+                                factors: {
+                                    period: currentFactors.period ? currentFactors.periodFlow : false,
+                                    birthControl: currentFactors.birthControl ? currentFactors.birthControlType : false,
+                                    sick: currentFactors.sick ? currentFactors.sickType : false,
+                                    stress: currentFactors.stress
+                                }
+                            };
+
+                            alert('Entry saved! Check Insights for AI analysis.');
+
+                            // Switch to insights tab
+                            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+                            document.querySelector('[data-tab="insights"]')?.classList.add('active');
+                            activeTab = 'insights';
+                            updateScreen();
+                        }
+                    } catch (error) {
+                        console.error('Error saving:', error);
+                        alert('Failed to save entry. Please try again.');
+                    } finally {
+                        // Restore button
+                        const saveBtn = document.getElementById('saveEntryBtn');
+                        if (saveBtn) {
+                            saveBtn.innerHTML = '<i class="fa-regular fa-floppy-disk"></i> Save Today\'s Entry';
+                            saveBtn.disabled = false;
+                        }
                     }
-
-                    alert('Entry saved! Check Insights for AI analysis.');
-
-                    // Switch to insights tab
-                    document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-                    document.querySelector('[data-tab="insights"]').classList.add('active');
-                    activeTab = 'insights';
-                    updateScreen();
                 });
             }
 
@@ -1729,21 +1820,10 @@
                 });
             }
 
-            // Tab switching
-            document.querySelectorAll('.tab-item').forEach(tab => {
-                tab.addEventListener('click', (e) => {
-                    document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    activeTab = tab.dataset.tab;
-                    updateScreen();
-                });
-            });
-
-            // Initial render
-            updateScreen();
+            // Check auth status on page load
+            checkAuthStatus();
         })();
     </script>
-    <!--<div style="position: fixed; bottom: 8px; left:0; right:0; text-align:center; font-size:11px; color:#b090b0;">✨ Advora • Enhanced with structured symptoms & severity tracking</div>-->
 </body>
 
 </html>

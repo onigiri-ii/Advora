@@ -1,132 +1,187 @@
-# First, import dependencies
 from flask import Blueprint, request, jsonify, session
-from services.supabase_client import SupabaseService
-from services.elevenlabs_service import ElevenLabsService
-from services.gemini_service import GeminiService
+from services.supabase_service import supabase_service
 from datetime import datetime
-import json
 
-# 1. CREATE THE BLUEPRINT FIRST (this must come before any @entries_bp decorators)
+# Create the blueprint FIRST
 entries_bp = Blueprint('entries', __name__)
 
-# 2. Initialize services
-supabase = SupabaseService()
-elevenlabs = ElevenLabsService()
-gemini = GeminiService()
-
-# 3. NOW define routes using the blueprint
-@entries_bp.route('/api/transcribe', methods=['POST'])
-def transcribe_audio():
-    """Transcribe audio from voice memo"""
-    print(f"Session data: {dict(session)}")
-    user_id = session.get('user_id')
-    print(f"User ID from session: {user_id}")
-    
-    # For testing, let's bypass auth temporarily
-    # if not user_id:
-    #     return jsonify({'error': 'Not authenticated'}), 401
-    
-    data = request.json
-    audio_base64 = data.get('audio')
-    
-    if not audio_base64:
-        return jsonify({'error': 'No audio data'}), 400
-    
-    # Call ElevenLabs API
-    transcript = elevenlabs.transcribe_audio(audio_base64)
-    
-    if transcript:
-        return jsonify({'transcript': transcript})
-    else:
-        return jsonify({'error': 'Transcription failed'}), 500
+if supabase_service:
+    supabase = supabase_service.get_client()
+else:
+    supabase = None
+    print("⚠️  Entries routes: Supabase not available")
 
 @entries_bp.route('/api/entries', methods=['GET'])
 def get_entries():
-    """Get entries for authenticated user"""
+    """Get all entries for the logged-in user"""
     user_id = session.get('user_id')
     if not user_id:
         return jsonify({'error': 'Not authenticated'}), 401
     
-    days = request.args.get('days', 30, type=int)
-    entries = supabase.get_entries(user_id, days)
-    return jsonify(entries)
-
-@entries_bp.route('/api/entries/today', methods=['GET'])
-def get_today_entry():
-    """Get today's entry"""
-    user_id = session.get('user_id')
-    if not user_id:
-        return jsonify({'error': 'Not authenticated'}), 401
+    if not supabase:
+        return jsonify({'error': 'Database connection not available'}), 500
     
-    today = datetime.now().strftime('%Y-%m-%d')
-    entry = supabase.get_entry_by_date(user_id, today)
-    return jsonify(entry or {})
+    try:
+        # Get all journal entries with their symptoms and factors
+        result = supabase.table('journal_entries') \
+            .select('*') \
+            .eq('user_id', user_id) \
+            .order('entry_date', desc=True) \
+            .execute()
+        
+        # Manually fetch symptoms and factors for each entry
+        entries_with_details = []
+        for entry in result.data:
+            # Get symptoms for this entry
+            symptoms_result = supabase.table('entry_symptoms') \
+                .select('symptoms(id, symptom_key, label, icon)') \
+                .eq('entry_id', entry['id']) \
+                .execute()
+            
+            # Get factors for this entry
+            factors_result = supabase.table('entry_factors') \
+                .select('*') \
+                .eq('entry_id', entry['id']) \
+                .execute()
+            
+            entry_with_details = {
+                **entry,
+                'symptoms': [s['symptoms'] for s in symptoms_result.data] if symptoms_result.data else [],
+                'factors': factors_result.data[0] if factors_result.data else {}
+            }
+            entries_with_details.append(entry_with_details)
+        
+        return jsonify(entries_with_details), 200
+    except Exception as e:
+        print(f"Error fetching entries: {e}")
+        return jsonify({'error': str(e)}), 500
 
 @entries_bp.route('/api/entries', methods=['POST'])
-def create_entry():
-    """Create or update entry"""
+def save_entry():
+    """Save or update a journal entry"""
     user_id = session.get('user_id')
+    print(f"Saving entry for user_id: {user_id}")
+    
     if not user_id:
         return jsonify({'error': 'Not authenticated'}), 401
+    
+    if not supabase:
+        return jsonify({'error': 'Database connection not available'}), 500
     
     data = request.json
-    entry_data = {
-        'entry_date': data.get('entry_date'),
-        'symptoms': data.get('symptoms', []),
-        'pain_level': data.get('pain_level'),
-        'text_input': data.get('text_input', ''),
-        'audio_transcript': data.get('audio_transcript', ''),
-        'factors': data.get('factors', {})
-    }
+    entry_date = data.get('entry_date')
+    text = data.get('text', '')
+    pain_level = data.get('pain_level', 3)
+    symptoms = data.get('symptoms', [])
+    factors = data.get('factors', {})
     
-    # Check if entry exists for today
-    existing = supabase.get_entry_by_date(user_id, entry_data['entry_date'])
-    
-    if existing:
-        result = supabase.update_entry(existing['id'], entry_data)
-    else:
-        result = supabase.create_entry(user_id, entry_data)
-    
-    return jsonify({'success': True, 'data': result})
-
-@entries_bp.route('/api/insights', methods=['GET'])
-def get_insights():
-    """Get AI-powered insights"""
-    user_id = session.get('user_id')
-    if not user_id:
-        return jsonify({'error': 'Not authenticated'}), 401
-    
-    # Get last 30 days of entries
-    entries = supabase.get_entries(user_id, 30)
-    
-    if not entries:
-        return jsonify({'message': 'Not enough data'})
-    
-    # Analyze with Gemini
-    analysis = gemini.analyze_patterns(entries)
-    
-    # Calculate statistics
-    pain_levels = [e['pain_level'] for e in entries if e.get('pain_level')]
-    period_entries = [e for e in entries if e.get('factors') and e['factors'].get('period')]
-    
-    insights = {
-        'analysis': analysis,
-        'stats': {
-            'total_entries': len(entries),
-            'avg_pain': sum(pain_levels) / len(pain_levels) if pain_levels else 0,
-            'avg_period_pain': sum([e['pain_level'] for e in period_entries if e.get('pain_level')]) / len(period_entries) if period_entries else 0,
-            'most_common_symptoms': calculate_common_symptoms(entries)
+    try:
+        # First, verify the user exists
+        user_check = supabase.table('users') \
+            .select('id') \
+            .eq('id', user_id) \
+            .execute()
+        
+        if not user_check.data:
+            print(f"User {user_id} not found in database")
+            return jsonify({'error': 'User not found'}), 401
+        
+        # Check if entry exists for this date
+        existing = supabase.table('journal_entries') \
+            .select('id') \
+            .eq('user_id', user_id) \
+            .eq('entry_date', entry_date) \
+            .execute()
+        
+        print(f"Existing entry check: {existing.data}")
+        
+        if existing.data:
+            # Update existing entry
+            entry_id = existing.data[0]['id']
+            print(f"Updating existing entry: {entry_id}")
+            
+            # Update journal entry
+            update_result = supabase.table('journal_entries') \
+                .update({
+                    'text': text,
+                    'pain_level': pain_level,
+                    'updated_at': datetime.now().isoformat()
+                }) \
+                .eq('id', entry_id) \
+                .eq('user_id', user_id) \
+                .execute()
+            
+            print(f"Update result: {update_result}")
+            
+            # Delete existing symptoms and factors to replace them
+            supabase.table('entry_symptoms').delete().eq('entry_id', entry_id).execute()
+            supabase.table('entry_factors').delete().eq('entry_id', entry_id).execute()
+        else:
+            # Create new entry
+            print(f"Creating new entry for user {user_id} on date {entry_date}")
+            
+            entry_result = supabase.table('journal_entries') \
+                .insert({
+                    'user_id': user_id,
+                    'entry_date': entry_date,
+                    'text': text,
+                    'pain_level': pain_level
+                }) \
+                .execute()
+            
+            print(f"Insert result: {entry_result}")
+            
+            if not entry_result.data:
+                return jsonify({'error': 'Failed to create entry'}), 500
+                
+            entry_id = entry_result.data[0]['id']
+            print(f"Created entry with ID: {entry_id}")
+        
+        # Insert symptoms if any
+        if symptoms and len(symptoms) > 0:
+            print(f"Inserting symptoms: {symptoms}")
+            
+            # Get symptom IDs from keys
+            symptom_ids = supabase.table('symptoms') \
+                .select('id, symptom_key') \
+                .in_('symptom_key', symptoms) \
+                .execute()
+            
+            print(f"Found symptom IDs: {symptom_ids.data}")
+            
+            for symptom in symptom_ids.data:
+                symptom_insert = supabase.table('entry_symptoms') \
+                    .insert({
+                        'entry_id': entry_id,
+                        'symptom_id': symptom['id']
+                    }) \
+                    .execute()
+                print(f"Inserted symptom: {symptom_insert}")
+        
+        # Insert factors
+        factors_data = {
+            'entry_id': entry_id,
+            'period': factors.get('period', False),
+            'period_flow': factors.get('period_flow') if factors.get('period') else None,
+            'birth_control': factors.get('birth_control', False),
+            'birth_control_type': factors.get('birth_control_type') if factors.get('birth_control') else None,
+            'sick': factors.get('sick', False),
+            'sick_type': factors.get('sick_type') if factors.get('sick') else None,
+            'stress': factors.get('stress', 3)
         }
-    }
-    
-    return jsonify(insights)
-
-def calculate_common_symptoms(entries):
-    """Helper to calculate most common symptoms"""
-    symptom_counts = {}
-    for entry in entries:
-        for symptom in entry.get('symptoms', []):
-            symptom_counts[symptom] = symptom_counts.get(symptom, 0) + 1
-    
-    sorted_symptoms = sorted(symptom_counts.items(), key=lambda x: x[1], reverse=True)
-    return sorted_symptoms[:5]
+        
+        print(f"Inserting factors: {factors_data}")
+        
+        factors_insert = supabase.table('entry_factors') \
+            .insert(factors_data) \
+            .execute()
+        
+        print(f"Factors insert result: {factors_insert}")
+        
+        return jsonify({'success': True, 'entry_id': entry_id}), 200
+        
+    except Exception as e:
+        print(f"Error saving entry: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500

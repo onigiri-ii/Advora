@@ -1,38 +1,75 @@
-from flask import Flask, request, jsonify
-from elevenlabs.client import ElevenLabs
-from supabase import create_client
 import os
+import requests
+import base64
 from dotenv import load_dotenv
 
 load_dotenv()
 
-app = Flask(__name__)
-
-# ElevenLabs setup
-eleven = ElevenLabs(api_key=os.getenv("ELEVENLABS_API_KEY"))
-
-# Supabase setup
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-
-@app.route("/transcribe", methods=["POST"])
-def transcribe():
-    audio_file = request.files["audio"]
-
-    # Send audio to ElevenLabs
-    response = eleven.speech_to_text.convert(
-        file=audio_file
-    )
-
-    transcript = response.text
-
-    # Insert transcript into Supabase
-    supabase.table("symptom_entries").insert({
-        "text": transcript
-    }).execute()
-
-    return jsonify({"transcript": transcript})
-
-if __name__ == "__main__":
-    app.run(debug=True)
+class ElevenLabsService:
+    def __init__(self):
+        self.api_key = os.getenv("ELEVENLABS_API_KEY")
+        if not self.api_key:
+            raise ValueError("Missing ElevenLabs API key")
+        self.base_url = "https://api.elevenlabs.io/v1"
+        print(f"✅ ElevenLabs service initialized with key starting: {self.api_key[:8]}...")
+    
+    def transcribe_audio(self, audio_base64):
+        """
+        Convert speech to text using ElevenLabs Speech-to-Text
+        Sends audio as a file upload (multipart/form-data)
+        """
+        if not audio_base64:
+            print("❌ No audio data provided")
+            return None
+        
+        # Decode base64 to bytes
+        try:
+            audio_bytes = base64.b64decode(audio_base64)
+            print(f"✅ Audio decoded: {len(audio_bytes)} bytes")
+        except Exception as e:
+            print(f"❌ Failed to decode audio: {e}")
+            return None
+        
+        # Prepare headers
+        headers = {
+            "xi-api-key": self.api_key
+        }
+        
+        # Prepare the audio file for upload
+        files = {
+            'file': ('audio.webm', audio_bytes, 'audio/webm')
+        }
+        
+        # Optional parameters
+        data = {
+            'model_id': 'scribe_v1'
+        }
+        
+        try:
+            print("📤 Sending request to ElevenLabs STT...")
+            response = requests.post(
+                f"{self.base_url}/speech-to-text",
+                headers=headers,
+                files=files,
+                data=data,
+                timeout=30
+            )
+            
+            print(f"📥 Response status: {response.status_code}")
+            
+            if response.status_code == 200:
+                result = response.json()
+                transcript = result.get("text", "")
+                print(f"✅ Transcription successful: {transcript[:50]}...")
+                return transcript
+            else:
+                print(f"❌ ElevenLabs API error: {response.status_code}")
+                print(f"Response body: {response.text}")
+                return None
+                
+        except requests.exceptions.Timeout:
+            print("❌ Request timed out")
+            return None
+        except Exception as e:
+            print(f"❌ Error calling ElevenLabs: {e}")
+            return None
